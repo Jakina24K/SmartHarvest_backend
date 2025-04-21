@@ -11,3 +11,7 @@ ENV/
 
 # Autres fichiers non nécessaires à versionner
 *.log
+__pycache__
+
+# Ignore the SQLite database file
+db.sqlite3
