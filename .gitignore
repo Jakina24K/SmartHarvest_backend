@@ -1,0 +1,13 @@
+# Fichiers Python compilés
+*.pyc
+*.pyo
+__pycache__/  # Ignore les fichiers Python générés dans tous les dossiers, y compris les migrations.
+
+# Fichiers et répertoires spécifiques aux environnements virtuels
+venv/
+env/
+ENV/
+.venv/
+
+# Autres fichiers non nécessaires à versionner
+*.log

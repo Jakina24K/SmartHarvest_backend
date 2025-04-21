@@ -1,0 +1,49 @@
+from django.db import models
+
+class Users(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=False)
+    email = models.CharField(max_length=150, unique=True, null=False)
+    localisation = models.CharField(max_length=255, null=True, blank=True)
+
+class Zone(models.Model):
+    name = models.CharField(max_length=100)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+    
+class SoilType(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=False)
+    description = models.TextField(null=True, blank=True)
+    
+    def __str__(self):
+        return self.name
+    
+class Season(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=False)
+    start_month = models.DateField(null=False)
+    end_month = models.DateField(null=False)
+    
+    def __str__(self):
+        return self.name
+
+class Plant(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=False)
+    description = models.TextField(null=True, blank=True)
+    soil_type = models.ManyToManyField(SoilType)
+    season = models.ManyToManyField(Season)
+    
+    def __str__(self):
+        return self.name
+
+class ZoneProfile(models.Model):
+    zone = models.OneToOneField(Zone, on_delete=models.CASCADE)
+    soil_type = models.ForeignKey(SoilType, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"{self.zone.name} - {self.soil_type.name}"
