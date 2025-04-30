@@ -47,3 +47,12 @@ class ZoneProfile(models.Model):
 
     def __str__(self):
         return f"{self.zone.name} - {self.soil_type.name}"
+
+class RecommendationLog(models.Model):
+    zone = models.ForeignKey('ZoneProfile', on_delete=models.CASCADE)
+    plant = models.ForeignKey('Plant', on_delete=models.CASCADE)
+    season = models.ForeignKey('Season', on_delete=models.CASCADE)
+    recommended_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.zone.zone_name} - {self.plant.name} - {self.season.name}"
