@@ -1,9 +1,53 @@
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from datetime import date
-from .models import Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
-from .serializers import ZoneSerializer, SoilTypeSerializer, SeasonSerializer, ZoneProfileSerializer, PlantSerializer, RecommendationLogSerializer
+from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
+from .serializers import UsersSerializer, ZoneSerializer, SoilTypeSerializer, SeasonSerializer, ZoneProfileSerializer, PlantSerializer, RecommendationLogSerializer
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+import face_recognition
+import numpy as np
+import dlib 
+
+class UsersViewSet(viewsets.ModelViewSet):
+    queryset = Users.objects.all()
+    serializer_class = UsersSerializer
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+
+        if instance.photo:
+            try:
+                image_path = instance.photo.path
+
+                rgb_image = dlib.load_rgb_image(image_path)
+                
+                face_detector = dlib.get_frontal_face_detector()
+                
+                print("Qu'est ce qui se passe dans face detector : ", face_detector)
+                
+                detections = face_detector(rgb_image, 1)
+                
+                print(f"Nombre de visages détectés par dlib : {len(detections)}")
+                
+                print("Ici on commence a utilisé face recognition")
+                
+                face_locations = face_recognition.face_locations(rgb_image)
+                if not face_locations:
+                    print("Aucun visage détecté dans l'image.")
+                    return
+
+                encodings = face_recognition.face_encodings(rgb_image, face_locations)
+
+                if encodings:
+                    instance.face_encoding = encodings[0].tolist()
+                    instance.save()
+                else:
+                    print("Encodage impossible même après détection.")
+            except Exception as e:
+                print(f"Erreur de traitement de l'image : {e}")
 
 
 class ZoneViewSet(viewsets.ModelViewSet):
@@ -35,6 +79,42 @@ class RecommendationLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = RecommendationLog.objects.all().order_by('-recommended_at')
     serializer_class = RecommendationLogSerializer
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register_view(request):
+    data = request.data
+
+    required_fields = ['username', 'email', 'password']
+    for field in required_fields:
+        if field not in data or not data[field]:
+            return Response({'error': f'{field} is required'}, status=400)
+
+    try:
+        # Check if username or email already exists
+        if User.objects.filter(username=data['username']).exists():
+            return Response({'error': 'Username already exists'}, status=400)
+        if User.objects.filter(email=data['email']).exists():
+            return Response({'error': 'Email already exists'}, status=400)
+
+        # Create the User instance
+        user = User.objects.create(
+            username=data['username'],
+            email=data['email'],
+            password=make_password(data['password'])  # Hash the password
+        )
+
+        # Create the Users profile
+        Users.objects.create(
+            user=user,
+            localisation=data.get('localisation', ''),
+            photo=data.get('photo', None)  # Ensure the request is multipart/form-data for file uploads
+        )
+
+        return Response({'message': 'User created successfully'}, status=201)
+
+    except Exception as e:
+        return Response({'error': str(e)}, status=400)
+    
 @api_view(['GET'])
 def recommend_plants(request):
     zone_id = request.query_params.get('zone_id')
@@ -42,7 +122,8 @@ def recommend_plants(request):
         return Response({'error': 'zone_id is required'}, status=400)
 
     try:
-        zone_profile = ZoneProfile.objects.select_related('soil_type', 'zone').get(zone__id=zone_id)
+        zone_profile = ZoneProfile.objects.select_related(
+            'soil_type', 'zone').get(zone__id=zone_id)
     except ZoneProfile.DoesNotExist:
         return Response({'error': 'ZoneProfile not found'}, status=404)
 
@@ -63,7 +144,7 @@ def recommend_plants(request):
 
     print('Recommended plants:', recommended_plants)
     print('current_seasons:', current_seasons)
-    
+
     for plant in recommended_plants:
         RecommendationLog.objects.create(
             zone=zone_profile,
