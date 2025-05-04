@@ -3,9 +3,15 @@ from .models import Users
 
 class IsAdminUserProfile(BasePermission):
     def has_permission(self, request, view):
-        if not request.user.is_authenticated:
+        user = request.user
+
+        if not user or not user.is_authenticated:
             return False
+
+        if user.is_superuser:
+            return True
+
         try:
-            return request.user.users.role == 'admin'
-        except Users.DoesNotExist:
+            return user.profile.role == 'admin'
+        except AttributeError:
             return False

@@ -119,20 +119,17 @@ def register_view(request):
             return Response({'error': f'{field} is required'}, status=400)
 
     try:
-        # Check if username or email already exists
         if User.objects.filter(username=data['username']).exists():
             return Response({'error': 'Username already exists'}, status=400)
         if User.objects.filter(email=data['email']).exists():
             return Response({'error': 'Email already exists'}, status=400)
 
-        # Create the User instance
         user = User.objects.create(
             username=data['username'],
             email=data['email'],
             password=make_password(data['password'])  # Hash the password
         )
 
-        # Create the Users profile
         Users.objects.create(
             user=user,
             localisation=data.get('localisation', ''),
