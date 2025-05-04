@@ -50,6 +50,7 @@ class UsersViewSet(viewsets.ModelViewSet):
                     print("Encodage impossible même après détection.")
             except Exception as e:
                 print(f"Erreur de traitement de l'image : {e}")
+                
     @action(detail=False, methods=['get','patch'], url_path='me', permission_classes=[IsAuthenticated])
     def me(self, request):
         try:

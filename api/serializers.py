@@ -4,7 +4,14 @@ from .models import *
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email','password']
+        extra_kwargs = {
+            'password': {'write_only': True, 'required': False}
+        }
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            instance.set_password(validated_data.pop('password'))
+        return super().update(instance, validated_data)
 
 class UsersSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -12,6 +19,14 @@ class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model= Users
         fields = '__all__'
+    
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', None)
+        if user_data:
+            user_serializer = self.fields['user']
+            user_serializer.update(instance.user, user_data)
+
+        return super().update(instance, validated_data)
 
 class ZoneSerializer(serializers.ModelSerializer):
     class Meta:
