@@ -1,10 +1,11 @@
 from rest_framework import viewsets
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes,action
 from datetime import date
 from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
 from .serializers import UsersSerializer, ZoneSerializer, SoilTypeSerializer, SeasonSerializer, ZoneProfileSerializer, PlantSerializer, RecommendationLogSerializer
+from .permission import IsAdminUserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 import face_recognition
@@ -12,9 +13,10 @@ import numpy as np
 import dlib 
 
 class UsersViewSet(viewsets.ModelViewSet):
-    queryset = Users.objects.all()
+    queryset = Users.objects.select_related('user').all()
     serializer_class = UsersSerializer
-
+    permission_classes = [IsAdminUserProfile]
+    
     def perform_create(self, serializer):
         instance = serializer.save()
 
@@ -48,6 +50,22 @@ class UsersViewSet(viewsets.ModelViewSet):
                     print("Encodage impossible même après détection.")
             except Exception as e:
                 print(f"Erreur de traitement de l'image : {e}")
+    @action(detail=False, methods=['get','patch'], url_path='me', permission_classes=[IsAuthenticated])
+    def me(self, request):
+        try:
+            profile = Users.objects.select_related('user').get(user=request.user)
+        except Users.DoesNotExist:
+            return Response({"detail": "Profil non trouvé."}, status=404)
+        if request.method == 'GET':
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data)
+        
+        elif request.method == 'PATCH':
+            serializer = self.get_serializer(profile, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=400)
 
 
 class ZoneViewSet(viewsets.ModelViewSet):
@@ -107,7 +125,8 @@ def register_view(request):
         Users.objects.create(
             user=user,
             localisation=data.get('localisation', ''),
-            photo=data.get('photo', None)  # Ensure the request is multipart/form-data for file uploads
+            photo=data.get('photo', None),
+            role=data.get('role', 'user')
         )
 
         return Response({'message': 'User created successfully'}, status=201)

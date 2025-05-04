@@ -1,12 +1,17 @@
 from rest_framework import serializers
 from .models import *
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
 
 class UsersSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    
     class Meta:
-        model = Users
+        model= Users
         fields = '__all__'
-
 
 class ZoneSerializer(serializers.ModelSerializer):
     class Meta:

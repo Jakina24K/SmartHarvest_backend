@@ -2,10 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Users(models.Model):
+    ROLE_CHOICES = (
+        ('admin', 'Administrateur'),
+        ('user', 'Utilisateur'),
+    )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     localisation = models.CharField(max_length=255, null=True, blank=True)
     photo = models.ImageField(upload_to='faces/', null=True, blank=True)
     face_encoding = models.JSONField(null=True, blank=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='user')
     
     def __str__(self):
         return self.user.username
