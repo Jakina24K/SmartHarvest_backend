@@ -98,6 +98,16 @@ class RecommendationLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = RecommendationLog.objects.all().order_by('-recommended_at')
     serializer_class = RecommendationLogSerializer
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_connected_view(request):
+    profile = Users.objects.get(user=request.user)
+    return Response({
+        "username": request.user.username,
+        "email": request.user.email,
+        "role": profile.role
+    })
+    
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_view(request):

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
-from .models import Users  # Adapte selon ton nom d'app
+from .models import Users
 from rest_framework import status
 
 class UserProfileUpdateTest(TestCase):
@@ -14,7 +14,7 @@ class UserProfileUpdateTest(TestCase):
         self.client.login(username='testuser', password='testpass123')
 
     def test_update_user_profile(self):
-        url = '/api/users/me/'  # adapte selon ton router DRF
+        url = '/api/users/me/'
         data = {
             "user": {
                 "username": "updateduser",
