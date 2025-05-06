@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes,action
+from rest_framework.decorators import api_view, permission_classes, action
 from datetime import date
 from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
 from .serializers import UsersSerializer, ZoneSerializer, SoilTypeSerializer, SeasonSerializer, ZoneProfileSerializer, PlantSerializer, RecommendationLogSerializer
@@ -10,13 +10,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 import face_recognition
 import numpy as np
-import dlib 
+import dlib
+import traceback
+import sys
 
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.select_related('user').all()
     serializer_class = UsersSerializer
     permission_classes = [IsAdminUserProfile]
-    
+
     def perform_create(self, serializer):
         instance = serializer.save()
 
@@ -25,23 +27,25 @@ class UsersViewSet(viewsets.ModelViewSet):
                 image_path = instance.photo.path
 
                 rgb_image = dlib.load_rgb_image(image_path)
-                
+
                 face_detector = dlib.get_frontal_face_detector()
-                
+
                 print("Qu'est ce qui se passe dans face detector : ", face_detector)
-                
+
                 detections = face_detector(rgb_image, 1)
-                
-                print(f"Nombre de visages détectés par dlib : {len(detections)}")
-                
+
+                print(
+                    f"Nombre de visages détectés par dlib : {len(detections)}")
+
                 print("Ici on commence a utilisé face recognition")
-                
+
                 face_locations = face_recognition.face_locations(rgb_image)
                 if not face_locations:
                     print("Aucun visage détecté dans l'image.")
                     return
 
-                encodings = face_recognition.face_encodings(rgb_image, face_locations)
+                encodings = face_recognition.face_encodings(
+                    rgb_image, face_locations)
 
                 if encodings:
                     instance.face_encoding = encodings[0].tolist()
@@ -50,19 +54,21 @@ class UsersViewSet(viewsets.ModelViewSet):
                     print("Encodage impossible même après détection.")
             except Exception as e:
                 print(f"Erreur de traitement de l'image : {e}")
-                
-    @action(detail=False, methods=['get','patch'], url_path='me', permission_classes=[IsAuthenticated])
+
+    @action(detail=False, methods=['get', 'patch'], url_path='me', permission_classes=[IsAuthenticated])
     def me(self, request):
         try:
-            profile = Users.objects.select_related('user').get(user=request.user)
+            profile = Users.objects.select_related(
+                'user').get(user=request.user)
         except Users.DoesNotExist:
             return Response({"detail": "Profil non trouvé."}, status=404)
         if request.method == 'GET':
             serializer = self.get_serializer(profile)
             return Response(serializer.data)
-        
+
         elif request.method == 'PATCH':
-            serializer = self.get_serializer(profile, data=request.data, partial=True)
+            serializer = self.get_serializer(
+                profile, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
@@ -98,6 +104,7 @@ class RecommendationLogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = RecommendationLog.objects.all().order_by('-recommended_at')
     serializer_class = RecommendationLogSerializer
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_connected_view(request):
@@ -107,11 +114,14 @@ def user_connected_view(request):
         "email": request.user.email,
         "role": profile.role
     })
-    
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_view(request):
     data = request.data
+    print("Les données recus sont : ", data)
+    files = request.FILES
 
     required_fields = ['username', 'email', 'password']
     for field in required_fields:
@@ -127,19 +137,22 @@ def register_view(request):
         user = User.objects.create(
             username=data['username'],
             email=data['email'],
-            password=make_password(data['password'])  # Hash the password
+            password=make_password(data['password'])
         )
-
+        
+        photo = files.get('photo')
+        
         Users.objects.create(
             user=user,
             localisation=data.get('localisation', ''),
-            photo=data.get('photo', None),
+            photo=photo,
             role=data.get('role', 'user')
         )
 
         return Response({'message': 'User created successfully'}, status=201)
 
     except Exception as e:
+        print(f"Error : {str(e)}")
         return Response({'error': str(e)}, status=400)
     
 @api_view(['GET'])
