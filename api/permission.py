@@ -12,6 +12,6 @@ class IsAdminUserProfile(BasePermission):
             return True
 
         try:
-            return user.profile.role == 'admin'
-        except AttributeError:
+            return user.users.role == 'admin'
+        except Users.DoesNotExist:
             return False

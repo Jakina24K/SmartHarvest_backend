@@ -11,8 +11,6 @@ from django.contrib.auth.hashers import make_password
 import face_recognition
 import numpy as np
 import dlib
-import traceback
-import sys
 
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.select_related('user').all()
