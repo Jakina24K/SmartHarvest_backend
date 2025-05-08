@@ -11,6 +11,7 @@ class Users(models.Model):
     photo = models.ImageField(upload_to='faces/', null=True, blank=True)
     face_encoding = models.JSONField(null=True, blank=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='user')
+    created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.user.username

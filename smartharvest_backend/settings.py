@@ -124,6 +124,7 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'AUTH_HEADER_TYPES': ('Bearer',),
+    'UPDATE_LAST_LOGIN': True, 
 }
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
