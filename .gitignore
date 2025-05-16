@@ -6,6 +6,7 @@ __pycache__/  # Ignore les fichiers Python générés dans tous les dossiers, y 
 # Fichiers et répertoires spécifiques aux environnements virtuels
 venv/
 env/
+.env
 ENV/
 .venv/
 
