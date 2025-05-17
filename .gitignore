@@ -9,7 +9,7 @@ env/
 .env
 ENV/
 .venv/
-
+venv310/
 # Autres fichiers non nécessaires à versionner
 *.log
 __pycache__
