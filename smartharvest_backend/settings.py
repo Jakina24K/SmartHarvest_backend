@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure--vx5ieo+6f4cd(jgr6$%=83^nj03xd)0@2xqr0ftx6&1&@*p^*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'smart_harvest',
         'USER': 'postgres',
-        'PASSWORD': 'jakina123',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -126,6 +126,24 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'UPDATE_LAST_LOGIN': True, 
 }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'api': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 

@@ -2,15 +2,19 @@ from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, action
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_201_CREATED
 from datetime import date
 from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
 from .serializers import UsersSerializer, ZoneSerializer, SoilTypeSerializer, SeasonSerializer, ZoneProfileSerializer, PlantSerializer, RecommendationLogSerializer
 from .permission import IsAdminUserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-import face_recognition
 import numpy as np
-import dlib
+from api.scripts.plant_process import preprocess_image, model, class_names
+import torch
+import logging
+
+logger = logging.getLogger(__name__)
 
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.select_related('user').all()
@@ -24,32 +28,8 @@ class UsersViewSet(viewsets.ModelViewSet):
             try:
                 image_path = instance.photo.path
 
-                rgb_image = dlib.load_rgb_image(image_path)
-
-                face_detector = dlib.get_frontal_face_detector()
-
-                print("Qu'est ce qui se passe dans face detector : ", face_detector)
-
-                detections = face_detector(rgb_image, 1)
-
-                print(
-                    f"Nombre de visages détectés par dlib : {len(detections)}")
-
                 print("Ici on commence a utilisé face recognition")
 
-                face_locations = face_recognition.face_locations(rgb_image)
-                if not face_locations:
-                    print("Aucun visage détecté dans l'image.")
-                    return
-
-                encodings = face_recognition.face_encodings(
-                    rgb_image, face_locations)
-
-                if encodings:
-                    instance.face_encoding = encodings[0].tolist()
-                    instance.save()
-                else:
-                    print("Encodage impossible même après détection.")
             except Exception as e:
                 print(f"Erreur de traitement de l'image : {e}")
 
@@ -192,3 +172,31 @@ def recommend_plants(request):
 
     serializer = PlantSerializer(recommended_plants, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def predict(request):
+    try:
+        if 'file' not in request.FILES:
+            return Response({"error": "No file provided"}, status=HTTP_400_BAD_REQUEST)
+        
+        img_bytes = request.FILES['file'].read()
+        input_tensor = preprocess_image(img_bytes)
+
+        with torch.no_grad():
+            outputs = model(input_tensor)
+            probs = torch.softmax(outputs, dim=1)
+            pred_class = torch.argmax(probs, dim=1).item()
+            pred_name = class_names[pred_class]
+            pred_prob = probs[0][pred_class].item()
+
+        response = {
+            "class_index": pred_class,
+            "class_name": pred_name,
+            "probability": round(pred_prob, 4)
+        }
+        logger.info(f"Prediction response: {response}")
+        return Response(response)
+    except Exception as e:
+        logger.error(f"Error in predict: {e}")
+        return Response({"error": f"Error in predict: {e}"}, status=HTTP_500_INTERNAL_SERVER_ERROR)

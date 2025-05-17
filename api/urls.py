@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
-from .views import user_connected_view, register_view, UsersViewSet, ZoneViewSet, SoilTypeViewSet, SeasonViewSet, zoneProfileViewSet, PlantViewSet, RecommendationLogViewSet, recommend_plants
+from .views import user_connected_view, register_view, UsersViewSet, ZoneViewSet, SoilTypeViewSet, SeasonViewSet, zoneProfileViewSet, PlantViewSet, RecommendationLogViewSet, recommend_plants, predict
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/profile/', user_connected_view, name='user_connected_view'),
+    path('api/predict', predict, name='predict'),
 ]
