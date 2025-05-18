@@ -10,28 +10,15 @@ from .permission import IsAdminUserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 import numpy as np
-from api.scripts.plant_process import preprocess_image, model, class_names
-import torch
-import logging
-
-logger = logging.getLogger(__name__)
+from deepface import DeepFace
+from rest_framework_simplejwt.tokens import RefreshToken
+import tempfile
+import os
 
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.select_related('user').all()
     serializer_class = UsersSerializer
     permission_classes = [IsAdminUserProfile]
-
-    def perform_create(self, serializer):
-        instance = serializer.save()
-
-        if instance.photo:
-            try:
-                image_path = instance.photo.path
-
-                print("Ici on commence a utilisé face recognition")
-
-            except Exception as e:
-                print(f"Erreur de traitement de l'image : {e}")
 
     @action(detail=False, methods=['get', 'patch'], url_path='me', permission_classes=[IsAuthenticated])
     def me(self, request):
@@ -93,6 +80,52 @@ def user_connected_view(request):
         "role": profile.role
     })
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def facial_auth_view(request):
+    image_file = request.FILES.get('photo')
+
+    if not image_file:
+        return Response({"detail": "Aucune image fournie."}, status=400)
+
+        # Sauvegarde temporaire du fichier image
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp_file:
+        for chunk in image_file.chunks():
+            tmp_file.write(chunk)
+            tmp_path = tmp_file.name
+
+    try:
+        users = Users.objects.exclude(face_encoding__isnull=True)
+        for user in users:
+            if not user.face_encoding:
+                continue
+            result = DeepFace.verify(
+                img1_path=tmp_path,
+                img2_path=user.photo.path,
+                model_name='Facenet',
+                enforce_detection=False
+            )
+            print("Résultat de l'analyse : ",result)
+            if result["distance"] <= 0.7:
+                result["verified"] = True
+                
+            if result["verified"]:
+                    # Authentification réussie
+                refresh = RefreshToken.for_user(user.user)
+                os.remove(tmp_path)
+                return Response({
+                    "refresh": str(refresh),
+                     "access": str(refresh.access_token),
+                     "username": user.user.username
+                })
+
+        os.remove(tmp_path)
+        return Response({"detail": "Visage non reconnu."}, status=401)
+
+    except Exception as e:
+            os.remove(tmp_path)
+            return Response({"detail": f"Erreur : {str(e)}"}, status=500)
+        
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -100,6 +133,7 @@ def register_view(request):
     data = request.data
     print("Les données recus sont : ", data)
     files = request.FILES
+    
 
     required_fields = ['username', 'email', 'password']
     for field in required_fields:
@@ -117,22 +151,46 @@ def register_view(request):
             email=data['email'],
             password=make_password(data['password'])
         )
-        
+
         photo = files.get('photo')
-        
-        Users.objects.create(
+
+        user_profile = Users.objects.create(
             user=user,
             localisation=data.get('localisation', ''),
             photo=photo,
             role=data.get('role', 'user')
         )
 
+        # Process the photo with DeepFace if it exists
+        if user_profile.photo:
+            try:
+                image_path = user_profile.photo.path
+
+                # Use DeepFace to extract facial representations
+                representations = DeepFace.represent(
+                    img_path=image_path,
+                    model_name='Facenet',  # or 'VGG-Face', 'ArcFace', etc.
+                    enforce_detection=True
+                )
+
+                if representations and len(representations) > 0:
+                    # Take the first detected face
+                    embedding = representations[0]["embedding"]
+                    user_profile.face_encoding = embedding
+                    user_profile.save()
+                    print("Encodage facial enregistré avec succès.")
+                else:
+                    print("Aucune représentation faciale extraite.")
+            except Exception as e:
+                print(f"Erreur avec DeepFace : {e}")
+
         return Response({'message': 'User created successfully'}, status=201)
 
     except Exception as e:
         print(f"Error : {str(e)}")
         return Response({'error': str(e)}, status=400)
-    
+
+
 @api_view(['GET'])
 def recommend_plants(request):
     zone_id = request.query_params.get('zone_id')
@@ -172,31 +230,3 @@ def recommend_plants(request):
 
     serializer = PlantSerializer(recommended_plants, many=True)
     return Response(serializer.data)
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def predict(request):
-    try:
-        if 'file' not in request.FILES:
-            return Response({"error": "No file provided"}, status=HTTP_400_BAD_REQUEST)
-        
-        img_bytes = request.FILES['file'].read()
-        input_tensor = preprocess_image(img_bytes)
-
-        with torch.no_grad():
-            outputs = model(input_tensor)
-            probs = torch.softmax(outputs, dim=1)
-            pred_class = torch.argmax(probs, dim=1).item()
-            pred_name = class_names[pred_class]
-            pred_prob = probs[0][pred_class].item()
-
-        response = {
-            "class_index": pred_class,
-            "class_name": pred_name,
-            "probability": round(pred_prob, 4)
-        }
-        logger.info(f"Prediction response: {response}")
-        return Response(response)
-    except Exception as e:
-        logger.error(f"Error in predict: {e}")
-        return Response({"error": f"Error in predict: {e}"}, status=HTTP_500_INTERNAL_SERVER_ERROR)

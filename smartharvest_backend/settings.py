@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'smart_harvest',
         'USER': 'postgres',
-        'PASSWORD': 'root',
+        'PASSWORD': 'jakina123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
