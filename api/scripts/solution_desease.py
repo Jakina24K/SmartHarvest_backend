@@ -2,7 +2,7 @@ from random import choice
 from .gem import process_generated_content
 
 
-def generate__content(model, version, api_key, theme, text, mode="agricultural consultant", max_paragraphs=1, max_words_per_sentence=6):
+def generate_content(model, version, api_key, theme, text, mode="agricultural consultant", max_paragraphs=1, max_words_per_sentence=6):
 
     # Mode-specific instructions
     if mode.lower() == "agricultural engineer":

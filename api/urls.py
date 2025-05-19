@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
-from .views import user_connected_view, register_view,facial_auth_view, UsersViewSet, ZoneViewSet, SoilTypeViewSet, SeasonViewSet, zoneProfileViewSet, PlantViewSet, RecommendationLogViewSet, recommend_plants,predict
+from .views import user_connected_view, register_view,facial_auth_view, UsersViewSet, ZoneViewSet, SoilTypeViewSet, SeasonViewSet, zoneProfileViewSet, PlantViewSet, RecommendationLogViewSet, recommend_plants,predict, disease_solution
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/facial/', facial_auth_view, name='facial_auth'),
     path('api/profile/', user_connected_view, name='user_connected_view'),
-    path('api/predict', predict, name='predict'),
+    path('api/disease/predict', predict, name='disease_predict'),
+    path('api/disease/solution', disease_solution, name='disease_solution'),
 ]

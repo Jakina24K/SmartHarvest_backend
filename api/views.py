@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view, permission_classes, action
 from datetime import date
 from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
@@ -13,6 +14,9 @@ from deepface import DeepFace
 from rest_framework_simplejwt.tokens import RefreshToken
 import tempfile
 import os
+from api.scripts.plant_process import preprocess_image, model, class_names
+from decouple import config
+from api.scripts.solution_desease import generate_content
 import torch
 import logging
 
@@ -252,7 +256,6 @@ def predict(request):
             pred_prob = probs[0][pred_class].item()
 
         response = {
-            "class_index": pred_class,
             "class_name": pred_name,
             "probability": round(pred_prob, 4)
         }
@@ -261,3 +264,35 @@ def predict(request):
     except Exception as e:
         logger.error(f"Error in predict: {e}")
         return Response({"error": f"Error in predict: {e}"}, status=500)
+    
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def disease_solution(request):
+    MODEL = config('MODEL')
+    VERSION = config('VERSION')
+    GOOGLE_API_KEY = config('GOOGLE_API_KEY')
+
+    # Extract data from POST request
+    data = request.data
+    cleaned_theme = data.get('cleaned_theme')
+    text = data.get('text')
+    mode = data.get('mode', 'Agonnome')
+
+    # Validate required fields
+    if not all([MODEL, VERSION, GOOGLE_API_KEY, "Ravinkazo", text]):
+        return Response(
+            {'error': 'Missing required fields or environment variables'},
+            status=HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        # Call the original function
+        response = generate_content(
+            MODEL, VERSION, GOOGLE_API_KEY, cleaned_theme, text, mode=mode
+        )
+        return Response({'result': response}, status=HTTP_200_OK)
+    except Exception as e:
+        return Response(
+            {'error': str(e)},
+            status=HTTP_500_INTERNAL_SERVER_ERROR
+        )
