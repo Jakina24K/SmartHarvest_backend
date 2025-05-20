@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view, permission_classes, action
 from datetime import date
 from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
@@ -13,10 +14,13 @@ from deepface import DeepFace
 from rest_framework_simplejwt.tokens import RefreshToken
 import tempfile
 import os
-# import torch
-# import logging
+from api.scripts.plant_process import preprocess_image, model, class_names
+from decouple import config
+from api.scripts.solution_desease import generate_content
+import torch
+import logging
 
-# logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.select_related('user').all()
@@ -234,30 +238,108 @@ def recommend_plants(request):
     serializer = PlantSerializer(recommended_plants, many=True)
     return Response(serializer.data)
 
-# @api_view(['POST'])
-# @permission_classes([AllowAny])
-# def predict(request):
-#     try:
-#         if 'file' not in request.FILES:
-#             return Response({"error": "No file provided"}, status=400)
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def predict(request):
+    try:
+        if 'file' not in request.FILES:
+            return Response({"error": "No file provided"}, status=400)
         
-#         img_bytes = request.FILES['file'].read()
-#         input_tensor = preprocess_image(img_bytes)
+        img_bytes = request.FILES['file'].read()
+        input_tensor = preprocess_image(img_bytes)
 
-#         with torch.no_grad():
-#             outputs = model(input_tensor)
-#             probs = torch.softmax(outputs, dim=1)
-#             pred_class = torch.argmax(probs, dim=1).item()
-#             pred_name = class_names[pred_class]
-#             pred_prob = probs[0][pred_class].item()
+        with torch.no_grad():
+            outputs = model(input_tensor)
+            probs = torch.softmax(outputs, dim=1)
+            pred_class = torch.argmax(probs, dim=1).item()
+            pred_name = class_names[pred_class]
+            pred_prob = probs[0][pred_class].item()
 
-#         response = {
-#             "class_index": pred_class,
-#             "class_name": pred_name,
-#             "probability": round(pred_prob, 4)
-#         }
-#         logger.info(f"Prediction response: {response}")
-#         return Response(response)
-#     except Exception as e:
-#         logger.error(f"Error in predict: {e}")
-#         return Response({"error": f"Error in predict: {e}"}, status=500)
+        response = {
+            "class_name": pred_name,
+            "probability": round(pred_prob, 4)
+        }
+        logger.info(f"Prediction response: {response}")
+        return Response(response)
+    except Exception as e:
+        logger.error(f"Error in predict: {e}")
+        return Response({"error": f"Error in predict: {e}"}, status=500)
+    
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def disease_solution(request):
+    MODEL = config('MODEL')
+    VERSION = config('VERSION')
+    GOOGLE_API_KEY = config('GOOGLE_API_KEY')
+
+    # Extract data from POST request
+    data = request.data
+    cleaned_theme = data.get('cleaned_theme')
+    text = data.get('text')
+    mode = data.get('mode', 'Agonnome')
+
+    # Validate required fields
+    if not all([MODEL, VERSION, GOOGLE_API_KEY, "Ravinkazo", text]):
+        return Response(
+            {'error': 'Missing required fields or environment variables'},
+            status=HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        # Call the original function
+        response = generate_content(
+            MODEL, VERSION, GOOGLE_API_KEY, cleaned_theme, text, mode=mode
+        )
+        return Response({'result': response}, status=HTTP_200_OK)
+    except Exception as e:
+        return Response(
+            {'error': str(e)},
+            status=HTTP_500_INTERNAL_SERVER_ERROR
+        )
+    
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def scan_and_solution(request):
+    try:
+        if 'file' not in request.FILES:
+            return Response({"error": "No file provided"}, status=400)
+        
+        MODEL = config('MODEL')
+        VERSION = config('VERSION')
+        GOOGLE_API_KEY = config('GOOGLE_API_KEY')
+
+        data = request.data
+        mode = data.get('mode', 'Agonnome')
+
+        # Validate required fields
+        if not all([MODEL, VERSION, GOOGLE_API_KEY, "Ravinkazo"]):
+            return Response(
+                {'error': 'Missing required fields or environment variables'},
+                status=HTTP_400_BAD_REQUEST
+            )
+        
+        img_bytes = request.FILES['file'].read()
+        input_tensor = preprocess_image(img_bytes)
+
+        with torch.no_grad():
+            outputs = model(input_tensor)
+            probs = torch.softmax(outputs, dim=1)
+            pred_class = torch.argmax(probs, dim=1).item()
+            pred_name = class_names[pred_class]
+            pred_prob = probs[0][pred_class].item()
+
+        predict = {
+            "class_name": pred_name,
+            "probability": f"{round(pred_prob*100, 4)}%"
+        }
+        logger.info(f"Prediction response: {predict}")
+        response = generate_content(
+            MODEL, VERSION, GOOGLE_API_KEY, "Ravinkazo", predict, mode=mode
+        )
+        return Response({
+            'prediction': predict,
+            'result': response
+            }, status=HTTP_200_OK)
+    except Exception as e:
+        logger.error(f"Error in predict: {e}")
+        return Response({"error": f"Error in predict: {e}"}, status=500)
