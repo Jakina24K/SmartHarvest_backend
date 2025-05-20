@@ -37,6 +37,47 @@ class_names = [
     'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus', 'Tomato___healthy'
 ]
 
+nom_classe = [
+    'Pomme - Tavelure du pommier',
+    'Pomme - Pourriture noire',
+    'Pomme - Rouille du cèdre et du pommier',
+    'Pomme - Sain',
+    'Myrtille - Sain',
+    'Cerisier - Oïdium',
+    'Cerisier - Sain',
+    'Maïs - Tache foliaire à Cercospora (Gray leaf spot)',
+    'Maïs - Rouille commune',
+    'Maïs - Brûlure nordique des feuilles',
+    'Maïs - Sain',
+    'Vigne - Pourriture noire',
+    'Vigne - Esca (Maladie des taches noires)',
+    'Vigne - Brûlure des feuilles (Isariopsis)',
+    'Vigne - Sain',
+    'Orange - Huanglongbing (Greening des agrumes)',
+    'Pêcher - Tache bactérienne',
+    'Pêcher - Sain',
+    'Poivron - Tache bactérienne',
+    'Poivron - Sain',
+    'Pomme de terre - Mildiou précoce',
+    'Pomme de terre - Mildiou tardif',
+    'Pomme de terre - Sain',
+    'Framboise - Sain',
+    'Soja - Sain',
+    'Courge - Oïdium',
+    'Fraisier - Brûlure des feuilles',
+    'Fraisier - Sain',
+    'Tomate - Tache bactérienne',
+    'Tomate - Mildiou précoce',
+    'Tomate - Mildiou tardif',
+    'Tomate - Moisissure des feuilles',
+    'Tomate - Tache septorienne',
+    'Tomate - Acariens (Tétranyque à deux points)',
+    'Tomate - Tache cible',
+    'Tomate - Virus des feuilles jaunes en cuillère',
+    'Tomate - Virus de la mosaïque',
+    'Tomate - Sain'
+]
+
 # Preprocessing
 def preprocess_image(image_bytes):
     try:

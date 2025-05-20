@@ -14,7 +14,7 @@ from deepface import DeepFace
 from rest_framework_simplejwt.tokens import RefreshToken
 import tempfile
 import os
-from api.scripts.plant_process import preprocess_image, model, class_names
+from api.scripts.plant_process import preprocess_image, model, class_names, nom_classe
 from decouple import config
 from api.scripts.solution_desease import generate_content
 import torch
@@ -309,7 +309,7 @@ def scan_and_solution(request):
         GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 
         data = request.data
-        mode = data.get('mode', 'Agonnome')
+        mode = data.get('mode', 'agricultural engineer')
 
         # Validate required fields
         if not all([MODEL, VERSION, GOOGLE_API_KEY, "Ravinkazo"]):
@@ -326,10 +326,11 @@ def scan_and_solution(request):
             probs = torch.softmax(outputs, dim=1)
             pred_class = torch.argmax(probs, dim=1).item()
             pred_name = class_names[pred_class]
+            pred_name_desc = nom_classe[pred_class]
             pred_prob = probs[0][pred_class].item()
 
         predict = {
-            "class_name": pred_name,
+            "class_name": pred_name_desc,
             "probability": f"{round(pred_prob*100, 4)}%"
         }
         logger.info(f"Prediction response: {predict}")
