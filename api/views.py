@@ -173,7 +173,6 @@ def register_view(request):
             try:
                 image_path = user_profile.photo.path
 
-                # Use DeepFace to extract facial representations
                 representations = DeepFace.represent(
                     img_path=image_path,
                     model_name='Facenet',  # or 'VGG-Face', 'ArcFace', etc.
@@ -181,7 +180,6 @@ def register_view(request):
                 )
 
                 if representations and len(representations) > 0:
-                    # Take the first detected face
                     embedding = representations[0]["embedding"]
                     user_profile.face_encoding = embedding
                     user_profile.save()
@@ -241,6 +239,7 @@ def recommend_plants(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def predict(request):
+    print("Le fichier recu : ",request.FILES)
     try:
         if 'file' not in request.FILES:
             return Response({"error": "No file provided"}, status=400)
@@ -339,7 +338,7 @@ def scan_and_solution(request):
         )
         return Response({
             'prediction': predict,
-            'result': response
+            'resultat': response
             }, status=HTTP_200_OK)
     except Exception as e:
         logger.error(f"Error in predict: {e}")
