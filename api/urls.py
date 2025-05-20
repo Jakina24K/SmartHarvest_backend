@@ -23,7 +23,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/facial/', facial_auth_view, name='facial_auth'),
     path('api/profile/', user_connected_view, name='user_connected_view'),
-    path('api/disease/predict', predict, name='disease_predict'),
-    path('api/disease/solution', disease_solution, name='disease_solution'),
-    path('api/disease', scan_and_solution, name='scan_solution'),
+    path('api/disease/predict/', predict, name='disease_predict'),
+    path('api/disease/solution/', disease_solution, name='disease_solution'),
+    path('api/disease/', scan_and_solution, name='scan_solution'),
 ]
