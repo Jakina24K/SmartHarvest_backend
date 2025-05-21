@@ -338,7 +338,7 @@ def scan_and_solution(request):
         )
         return Response({
             'prediction': predict,
-            'resultat': response
+            'result': response
             }, status=HTTP_200_OK)
     except Exception as e:
         logger.error(f"Error in predict: {e}")
