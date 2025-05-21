@@ -300,26 +300,36 @@ def disease_solution(request):
 @permission_classes([AllowAny])
 def scan_and_solution(request):
     try:
-        if 'file' not in request.FILES:
-            return Response({"error": "No file provided"}, status=400)
-        
-        MODEL = config('MODEL')
-        VERSION = config('VERSION')
-        GOOGLE_API_KEY = config('GOOGLE_API_KEY')
+        # 1. Vérification du fichier dans la requête
+        uploaded_file = request.FILES.get('file', None)
+        if not uploaded_file:
+            return Response({"error": "Aucun fichier fourni"}, status=HTTP_400_BAD_REQUEST)
 
+        # 2. Vérification des variables d'environnement
+        MODEL = config('MODEL', default=None)
+        VERSION = config('VERSION', default=None)
+        GOOGLE_API_KEY = config('GOOGLE_API_KEY', default=None)
+        DEFAULT_CONTEXT = "Ravinkazo"
+
+        if not all([MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT]):
+            return Response(
+                {'error': 'Variables d’environnement manquantes ou invalides'},
+                status=HTTP_400_BAD_REQUEST
+            )
+
+        # 3. Lecture du mode (agriculteur, ingénieur, etc.)
         data = request.data
         mode = data.get('mode', 'agricultural engineer')
 
-        # Validate required fields
-        if not all([MODEL, VERSION, GOOGLE_API_KEY, "Ravinkazo"]):
-            return Response(
-                {'error': 'Missing required fields or environment variables'},
-                status=HTTP_400_BAD_REQUEST
-            )
-        
-        img_bytes = request.FILES['file'].read()
-        input_tensor = preprocess_image(img_bytes)
+        # 4. Lecture et traitement de l’image
+        try:
+            img_bytes = uploaded_file.read()
+            input_tensor = preprocess_image(img_bytes)  # Fonction que vous avez déjà
+        except Exception as img_err:
+            logger.error(f"Erreur de traitement de l’image : {img_err}")
+            return Response({"error": "Image invalide ou non traitable"}, status=HTTP_400_BAD_REQUEST)
 
+        # 5. Prédiction avec le modèle
         with torch.no_grad():
             outputs = model(input_tensor)
             probs = torch.softmax(outputs, dim=1)
@@ -328,18 +338,23 @@ def scan_and_solution(request):
             pred_name_desc = nom_classe[pred_class]
             pred_prob = probs[0][pred_class].item()
 
-        predict = {
+        prediction = {
             "class_name": pred_name_desc,
-            "probability": f"{round(pred_prob*100, 4)}%"
+            "probability": f"{round(pred_prob * 100, 2)}%"
         }
-        logger.info(f"Prediction response: {predict}")
-        response = generate_content(
-            MODEL, VERSION, GOOGLE_API_KEY, "Ravinkazo", predict, mode=mode
+
+        logger.info(f"Résultat de la prédiction : {prediction}")
+
+        # 6. Génération de la réponse via un agent ou IA externe
+        response_content = generate_content(
+            MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT, prediction, mode=mode
         )
+
         return Response({
-            'prediction': predict,
-            'result': response
-            }, status=HTTP_200_OK)
+            'prediction': prediction,
+            'result': response_content
+        }, status=HTTP_200_OK)
+
     except Exception as e:
-        logger.error(f"Error in predict: {e}")
-        return Response({"error": f"Error in predict: {e}"}, status=500)
+        logger.exception("Erreur inattendue dans scan_and_solution")
+        return Response({"error": f"Erreur interne du serveur : {e}"}, status=500)
