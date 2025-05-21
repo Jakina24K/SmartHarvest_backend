@@ -11,7 +11,7 @@ def generate_content(model, version, api_key, theme, text, mode="agricultural co
 
             Requête : Agir en tant qu'ingénieur agronome IA spécialisé en pathologie végétale et agriculture de précision.
 
-            Tâche : Analyser les données d'entrée : {text}
+            Tâche : Analyser les données d'entrée : {text}, (la probability ne montre pas seulement la precission de la maladie, mais aussi la precision du nom de la plante).
 
             Réponse : Fournir une réponse en un seul paragraphe intégrant : une évaluation du contexte (le nom de plante, saine/ sa maladie), un diagnostic selon la précision, des interventions (maladie : traitements simple/traditionnelles/biologiques/chimiques, isolement, cultivars résistants; santé : pratiques d'entretien) (avec des explications d'application), des instructions necessaires à savoir avec la contexte de la plante, des recommandations d'outils technologiques (capteurs spectraux, PCR, drones), et des mesures de prévention durable (rotation culturale, amendements, ajustements microclimatiques).
 
