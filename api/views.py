@@ -14,7 +14,7 @@ from deepface import DeepFace
 from rest_framework_simplejwt.tokens import RefreshToken
 import tempfile
 import os
-from api.scripts.plant_process import preprocess_image, model, class_names, nom_classe
+from api.scripts.plant_process import preprocess_image, model, class_names, nom_classe, class_names_malagasy
 from decouple import config
 from api.scripts.solution_desease import generate_content
 import torch
@@ -336,10 +336,12 @@ def scan_and_solution(request):
             pred_class = torch.argmax(probs, dim=1).item()
             pred_name = class_names[pred_class]
             pred_name_desc = nom_classe[pred_class]
+            pred_class_names_malagasy = class_names_malagasy[pred_class]
             pred_prob = probs[0][pred_class].item()
 
         prediction = {
-            "class_name": pred_name_desc,
+            "class_name_en": pred_name_desc,
+            "class_name": pred_class_names_malagasy,
             "probability": f"{round(pred_prob * 100, 2)}%"
         }
 
@@ -350,9 +352,19 @@ def scan_and_solution(request):
             MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT, prediction, mode=mode
         )
 
+        response_mg2 = generate_content(
+            MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT, prediction, mode="mpamboly ingeniera"
+        )
+
+        response_mg = generate_content(
+            MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT, prediction, mode="mpamboly ingeniera malagasy"
+        )
+
         return Response({
             'prediction': prediction,
-            'result': response_content
+            'result_en': response_content,
+            'result': response_mg,
+            'result_mg': response_mg2
         }, status=HTTP_200_OK)
 
     except Exception as e:

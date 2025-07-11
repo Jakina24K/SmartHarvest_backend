@@ -37,6 +37,60 @@ class_names = [
     'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Tomato___Tomato_mosaic_virus', 'Tomato___healthy'
 ]
 
+class_names_malagasy = [
+    'Mananasy___Fery mainty amin’ny mananasy',  # Apple___Apple_scab
+    'Mananasy___Fahapotehan’ny voany mainty',  # Apple___Black_rot
+    'Mananasy___Areti-mifindra avy amin’ny kesika',  # Apple___Cedar_apple_rust
+    'Mananasy___Salama',  # Apple___healthy
+
+    'Voaroy manga___Salama',  # Blueberry___healthy
+
+    'Voasarimakirana (isan-karazany)___Areti-pasika',  # Cherry_(including_sour)___Powdery_mildew
+    'Voasarimakirana (isan-karazany)___Salama',  # Cherry_(including_sour)___healthy
+
+    'Katsaka___Tarehy ravina sy pentina manjavona',  # Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot
+    'Katsaka___Harafesina mahazatra',  # Corn_(maize)___Common_rust_
+    'Katsaka___Areti-blight amin’ny raviny avaratra',  # Corn_(maize)___Northern_Leaf_Blight
+    'Katsaka___Salama',  # Corn_(maize)___healthy
+
+    'Voaloboka___Fahapotehan’ny ravina mainty',  # Grape___Black_rot
+    'Voaloboka___Esca (measly mainty)',  # Grape___Esca_(Black_Measles)
+    'Voaloboka___Blight amin’ny ravina (Isariopsis)',  # Grape___Leaf_blight_(Isariopsis_Leaf_Spot)
+    'Voaloboka___Salama',  # Grape___healthy
+
+    'Voasary___Haunglongbing (aretina citrus)',  # Orange___Haunglongbing_(Citrus_greening)
+
+    'Paisa___Tavin’ny bakteria',  # Peach___Bacterial_spot
+    'Paisa___Salama',  # Peach___healthy
+
+    'Sakamalaho___Tavin’ny bakteria',  # Pepper_bell___Bacterial_spot
+    'Sakamalaho___Salama',  # Pepper_bell___healthy
+
+    'Oviala___Areti-blight aloha',  # Potato___Early_blight
+    'Oviala___Areti-blight tara',  # Potato___Late_blight
+    'Oviala___Salama',  # Potato___healthy
+
+    'Framboazy___Salama',  # Raspberry___healthy
+    'Soja___Salama',  # Soybean___healthy
+
+    'Kaboaka___Areti-pasika',  # Squash___Powdery_mildew
+
+    'Fraisy___Tavin’ny ravina',  # Strawberry___Leaf_scorch
+    'Fraisy___Salama',  # Strawberry___healthy
+
+    'Voatabia___Tavin’ny bakteria',  # Tomato___Bacterial_spot
+    'Voatabia___Areti-blight aloha',  # Tomato___Early_blight
+    'Voatabia___Areti-blight tara',  # Tomato___Late_blight
+    'Voatabia___Mold amin’ny ravina',  # Tomato___Leaf_Mold
+    'Voatabia___Pentimpentin’ny ravina (Septoria)',  # Tomato___Septoria_leaf_spot
+    'Voatabia___Areti-kosoka: bitika manify misy fanintsanana',  # Tomato___Spider_mites Two-spotted_spider_mite
+    'Voatabia___Tavim-pahasarotana (Target Spot)',  # Tomato___Target_Spot
+    'Voatabia___Virus mavo amin’ny ravina',  # Tomato___Tomato_Yellow_Leaf_Curl_Virus
+    'Voatabia___Virus tomato mosaic',  # Tomato___Tomato_mosaic_virus
+    'Voatabia___Salama'  # Tomato___healthy
+]
+
+
 nom_classe = [
     'Pomme - Tavelure du pommier',
     'Pomme - Pourriture noire',
