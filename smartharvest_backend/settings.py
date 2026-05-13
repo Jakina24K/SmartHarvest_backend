@@ -65,16 +65,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'smartharvest_backend.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': config('PG_ENGINE'),
-        'NAME': config('PG_NAME'),
-        'USER': config('PG_USER'),
-        'PASSWORD': config('PG_PASSWORD'),
-        'HOST': config('PG_HOST'),
-        'PORT': config('PG_PORT'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': config('PG_ENGINE'),
+#         'NAME': config('PG_NAME'),
+#         'USER': config('PG_USER'),
+#         'PASSWORD': config('PG_PASSWORD'),
+#         'HOST': config('PG_HOST'),
+#         'PORT': config('PG_PORT'),
+#     }
+# }
 
 
 # Password validation

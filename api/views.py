@@ -275,16 +275,24 @@ def culture_caracteristics(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def culture_from_caracteristics(request):
-    query = request.data.get('caracteristic')
-    query = query.lower()
-    
-    if not query:
-        return Response({"error": "Veuillez fournirn les caractéristiques"}, status=400)
-    
-    results = get_culture_from_caracteristics(query)
+    data = request.data.get('caracteristic')
+
+    print("query", data)
+
+    if not data:
+        return Response(
+            {"error": "Veuillez fournir les caractéristiques"},
+            status=400
+        )
+
+    season = data.get("season", "").lower()
+
+    results = get_culture_from_caracteristics(season)
 
     if results:
         return Response({"cultures": results}, status=200)
-    
-    else:
-        return Response({"error": "Erreur lors de la récuperation des cultures"}, status=500)
+
+    return Response(
+        {"error": "Erreur lors de la récupération des cultures"},
+        status=500
+    )
