@@ -261,7 +261,7 @@ def scan_and_solution(request):
 @permission_classes([AllowAny])
 def culture_caracteristics(request):
     query = request.data.get('culture')
-
+    query = query.lower()
     if not query:
         return Response({"error": "Veuillez fournir une culture à analyser"}, status=400)
         
