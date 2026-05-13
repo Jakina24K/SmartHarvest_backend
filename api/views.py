@@ -7,7 +7,7 @@ from datetime import date
 from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
 from .serializers import UsersSerializer, ZoneSerializer, SoilTypeSerializer, SeasonSerializer, ZoneProfileSerializer, PlantSerializer, RecommendationLogSerializer
 from .permission import IsAdminUserProfile
-from .services import get_culture_caracteristics
+from .services import get_culture_caracteristics, get_culture_from_caracteristics
 from api.scripts.plant_process import preprocess_image, model, class_names, nom_classe, class_names_malagasy
 from decouple import config
 from api.scripts.solution_desease import generate_content
@@ -271,3 +271,20 @@ def culture_caracteristics(request):
         return Response({"caracteristics": results}, status=200)
     
     return Response({"error": "Erreur lors de la récuperation des caractétistiques de la culture"}, status=500)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def culture_from_caracteristics(request):
+    query = request.data.get('caracteristic')
+    query = query.lower()
+    
+    if not query:
+        return Response({"error": "Veuillez fournirn les caractéristiques"}, status=400)
+    
+    results = get_culture_from_caracteristics(query)
+
+    if results:
+        return Response({"cultures": results}, status=200)
+    
+    else:
+        return Response({"error": "Erreur lors de la récuperation des cultures"}, status=500)
