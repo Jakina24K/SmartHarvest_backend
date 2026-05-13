@@ -1,0 +1,167 @@
+@prefix : <http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/> .
+
+<http://www.hasimboly.mg/ontologies/agri> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+:aPourClimat rdf:type owl:ObjectProperty ; rdfs:domain :Region ; rdfs:range :Climat .
+:aPourTypeDeSol rdf:type owl:ObjectProperty ; rdfs:domain :Region ; rdfs:range :Sol .
+:affecte rdf:type owl:ObjectProperty ; rdfs:domain :Maladie ; rdfs:range :Culture .
+:estAdaptéeÀ rdf:type owl:ObjectProperty ; rdfs:domain :Culture ; rdfs:range :Sol .
+:estLocaliséeDans rdf:type owl:ObjectProperty ; rdfs:domain :Culture ; rdfs:range :Region .
+:nécessite rdf:type owl:ObjectProperty ; rdfs:domain :Culture ; rdfs:range :Intrant .
+:seCultiveDurant rdf:type owl:ObjectProperty ; rdfs:domain :Culture ; rdfs:range :Saison .
+
+#################################################################
+#    Classes
+#################################################################
+
+:Climat rdf:type owl:Class .
+:Culture rdf:type owl:Class .
+:Intrant rdf:type owl:Class .
+:Maladie rdf:type owl:Class .
+:Region rdf:type owl:Class .
+:Saison rdf:type owl:Class .
+:Sol rdf:type owl:Class .
+
+#################################################################
+#    INDIVIDUALS - LES 23 RÉGIONS
+#################################################################
+
+:ANALAMANGA rdf:type :Region ; :aPourClimat :Toetrandro_an_tampon_tany ; :aPourTypeDeSol :Tany_mena, :Tany_horaka .
+:VAKINANKARATRA rdf:type :Region ; :aPourClimat :Mangatsiaka_be ; :aPourTypeDeSol :Tany_volkanika, :Tany_mena .
+:ITASY rdf:type :Region ; :aPourClimat :Toetrandro_tsara ; :aPourTypeDeSol :Tany_volkanika .
+:BONGOLAVA rdf:type :Region ; :aPourClimat :Toetrandro_antonony ; :aPourTypeDeSol :Tany_mena .
+:DIANA rdf:type :Region ; :aPourClimat :Mafana ; :aPourTypeDeSol :Tany_volkanika, :Tany_dilatra .
+:SAVA rdf:type :Region ; :aPourClimat :Mafana_sy_mando ; :aPourTypeDeSol :Tany_lonaka, :Tany_fasika .
+:AMORON_I_MANIA rdf:type :Region ; :aPourClimat :Mangatsiaka ; :aPourTypeDeSol :Tany_mena .
+:MATSIATRA_AMBONY rdf:type :Region ; :aPourClimat :Mangatsiaka ; :aPourTypeDeSol :Tany_mena .
+:VATOVAVY rdf:type :Region ; :aPourClimat :Mafana_sy_mando ; :aPourTypeDeSol :Tany_lonaka .
+:FITOVINANY rdf:type :Region ; :aPourClimat :Mafana_sy_mando ; :aPourTypeDeSol :Tany_lonaka .
+:IHOROMBE rdf:type :Region ; :aPourClimat :Maina_sy_rivotra ; :aPourTypeDeSol :Tany_mena .
+:ATSIMO_ATSINANANA rdf:type :Region ; :aPourClimat :Mafana_sy_mando ; :aPourTypeDeSol :Tany_lonaka .
+:BOENY rdf:type :Region ; :aPourClimat :Mafana_sy_maina ; :aPourTypeDeSol :Tany_dilatra .
+:SOFIA rdf:type :Region ; :aPourClimat :Mafana ; :aPourTypeDeSol :Tany_dilatra .
+:BETSIBOKA rdf:type :Region ; :aPourClimat :Mafana ; :aPourTypeDeSol :Tany_mena .
+:MELAKY rdf:type :Region ; :aPourClimat :Mafana ; :aPourTypeDeSol :Tany_fasika .
+:ALAOTRA_MANGORO rdf:type :Region ; :aPourClimat :Mafana_sy_mando ; :aPourTypeDeSol :Tany_dilatra .
+:ATSINANANA rdf:type :Region ; :aPourClimat :Mafana_sy_be_orana ; :aPourTypeDeSol :Tany_lonaka .
+:ANALANJIROFO rdf:type :Region ; :aPourClimat :Mafana_be_sy_mando ; :aPourTypeDeSol :Tany_lonaka .
+:ATSIMO_ANDREFANA rdf:type :Region ; :aPourClimat :Maina_sy_mafana ; :aPourTypeDeSol :Tany_fasika, :Tany_sokay .
+:ANDROY rdf:type :Region ; :aPourClimat :Karankaina ; :aPourTypeDeSol :Tany_sokay, :Tany_fasika .
+:ANOSY rdf:type :Region ; :aPourClimat :Somary_maina ; :aPourTypeDeSol :Tany_fasika .
+:MENABE rdf:type :Region ; :aPourClimat :Mafana_sy_maina ; :aPourTypeDeSol :Tany_dilatra .
+
+#################################################################
+#    INDIVIDUALS - CULTURES
+#################################################################
+
+:Vary rdf:type :Culture ; :estLocaliséeDans :ANALAMANGA, :VAKINANKARATRA, :ALAOTRA_MANGORO, :ITASY, :SOFIA, :BOENY, :DIANA, :SAVA, :ANALANJIROFO, :ATSINANANA, :VATOVAVY, :FITOVINANY, :ATSIMO_ATSINANANA, :MATSIATRA_AMBONY, :AMORON_I_MANIA, :BETSIBOKA, :BONGOLAVA, :MELAKY, :MENABE, :ATSIMO_ANDREFANA, :ANOSY, :IHOROMBE .
+:Katsaka rdf:type :Culture ; :estLocaliséeDans :BONGOLAVA, :MENABE, :VAKINANKARATRA, :IHOROMBE, :AMORON_I_MANIA, :ANALAMANGA, :ITASY, :BETSIBOKA, :SOFIA, :BOENY, :ATSIMO_ANDREFANA, :ANDROY, :MELAKY .
+:Ovy rdf:type :Culture ; :estLocaliséeDans :VAKINANKARATRA, :AMORON_I_MANIA, :MATSIATRA_AMBONY, :ANALAMANGA, :ITASY, :BONGOLAVA, :ALAOTRA_MANGORO .
+:Mangahazo rdf:type :Culture ; :estLocaliséeDans :ANDROY, :ATSIMO_ANDREFANA, :SOFIA, :BETSIBOKA, :MELAKY, :BOENY, :MENABE .
+:Lavanila rdf:type :Culture ; :estLocaliséeDans :SAVA, :ANALANJIROFO, :ANOSY, :DIANA, :VATOVAVY .
+:Kafe rdf:type :Culture ; :estLocaliséeDans :VATOVAVY, :FITOVINANY, :ATSIMO_ATSINANANA, :ANALANJIROFO, :ATSINANANA, :ALAOTRA_MANGORO .
+:Jirofo rdf:type :Culture ; :estLocaliséeDans :ANALANJIROFO, :SAVA, :ATSINANANA, :ATSIMO_ATSINANANA .
+:Kakao rdf:type :Culture ; :estLocaliséeDans :DIANA, :SAVA .
+:Voatabia rdf:type :Culture ; :estLocaliséeDans :ANALAMANGA, :ITASY, :VAKINANKARATRA, :BONGOLAVA, :ALAOTRA_MANGORO .
+:Akondro rdf:type :Culture ; :estLocaliséeDans :VATOVAVY, :FITOVINANY, :ATSINANANA, :ANALANJIROFO, :SAVA .
+:Manga rdf:type :Culture ; :estLocaliséeDans :BOENY, :SOFIA, :DIANA, :MELAKY, :MENABE, :ATSIMO_ANDREFANA .
+:Voanio rdf:type :Culture ; :estLocaliséeDans :SAVA, :DIANA, :ANALANJIROFO, :ATSINANANA, :BOENY .
+:Fary rdf:type :Culture ; :estLocaliséeDans :DIANA, :BOENY, :MENABE, :ATSINANANA .
+:Landihazo rdf:type :Culture ; :estLocaliséeDans :ATSIMO_ANDREFANA, :MENABE .
+:Litchi rdf:type :Culture ; :estLocaliséeDans :ATSINANANA, :ANALANJIROFO, :VATOVAVY, :FITOVINANY .
+
+#################################################################
+#    INDIVIDUALS - MALADIES ET IMPACTS DÉTAILLÉS
+#################################################################
+
+# --- Maladies du Riz (Vary) ---
+:Pyriculariose rdf:type :Maladie ; :affecte :Vary .
+:Helminthosporiose rdf:type :Maladie ; :affecte :Vary .
+:Bactériose_du_riz rdf:type :Maladie ; :affecte :Vary .
+:Trimena rdf:type :Maladie ; :affecte :Vary .
+
+# --- Maladies de la Vanille (Lavanila) ---
+:Fusariose_lavanila rdf:type :Maladie ; :affecte :Lavanila .
+:Anthracnose_lavanila rdf:type :Maladie ; :affecte :Lavanila .
+:Pourriture_des_racines rdf:type :Maladie ; :affecte :Lavanila, :Kakao .
+
+# --- Maladies du Maïs (Katsaka) ---
+:Chenille_Legionnaire rdf:type :Maladie ; :affecte :Katsaka .
+:Harafesina_katsaka rdf:type :Maladie ; :affecte :Katsaka .
+:Striga_boka rdf:type :Maladie ; :affecte :Katsaka, :Vary .
+
+# --- Maladies de la Pomme de terre et Maraîchage (Ovy, Voatabia) ---
+:Mildiou rdf:type :Maladie ; :affecte :Ovy, :Voatabia .
+:Flétrissement_bactérien rdf:type :Maladie ; :affecte :Ovy, :Voatabia, :Akondro .
+:Gale_commune rdf:type :Maladie ; :affecte :Ovy .
+
+# --- Maladies du Manioc (Mangahazo) ---
+:Mosaïque_mangahazo rdf:type :Maladie ; :affecte :Mangahazo .
+:Striure_brune_mangahazo rdf:type :Maladie ; :affecte :Mangahazo .
+:Soka_mangahazo rdf:type :Maladie ; :affecte :Mangahazo .
+
+# --- Maladies du Café (Kafe) ---
+:Harafesina_kafe rdf:type :Maladie ; :affecte :Kafe .
+:Scolyte_du_café rdf:type :Maladie ; :affecte :Kafe .
+
+# --- Maladies du Girofle (Jirofo) ---
+:Mort_subite_jirofo rdf:type :Maladie ; :affecte :Jirofo .
+:Cylindrocladium rdf:type :Maladie ; :affecte :Jirofo .
+
+# --- Maladies des Fruits (Manga, Litchi, Akondro) ---
+:Mouche_des_fruits rdf:type :Maladie ; :affecte :Manga, :Litchi, :Kakao .
+:Cochenille_farineuse rdf:type :Maladie ; :affecte :Voanio, :Manga, :Lavanila .
+:Maladie_de_Panama rdf:type :Maladie ; :affecte :Akondro .
+:Sigatoka_mainty rdf:type :Maladie ; :affecte :Akondro .
+
+# --- Ravageurs Généraux ---
+:Valala_mpifindra rdf:type :Maladie ; :affecte :Vary, :Katsaka, :Fary, :Landihazo .
+:Voalavo_saha rdf:type :Maladie ; :affecte :Vary, :Voanio, :Kakao .
+
+#################################################################
+#    LOGISTIQUE (Sols, Climats, etc.)
+#################################################################
+
+:Tany_mena rdf:type :Sol .
+:Tany_horaka rdf:type :Sol .
+:Tany_volkanika rdf:type :Sol .
+:Tany_dilatra rdf:type :Sol .
+:Tany_lonaka rdf:type :Sol .
+:Tany_fasika rdf:type :Sol .
+:Tany_sokay rdf:type :Sol .
+
+:Toetrandro_an_tampon_tany rdf:type :Climat .
+:Mangatsiaka_be rdf:type :Climat .
+:Mafana_sy_mando rdf:type :Climat .
+:Karankaina rdf:type :Climat .
+:Mafana_sy_maina rdf:type :Climat .
+:Maina_sy_mafana rdf:type :Climat .
+:Toetrandro_tsara rdf:type :Climat .
+:Toetrandro_antonony rdf:type :Climat .
+:Mangatsiaka rdf:type :Climat .
+:Maina_sy_rivotra rdf:type :Climat .
+:Mafana_sy_be_orana rdf:type :Climat .
+:Mafana_be_sy_mando rdf:type :Climat .
+:Somary_maina rdf:type :Climat .
+:Mafana rdf:type :Climat .
+
+:Novambra_Aprily rdf:type :Saison .
+:Jona_Aogositra rdf:type :Saison .
+:Mandavantaona rdf:type :Saison .
+
+:NPK rdf:type :Intrant .
+:Uree rdf:type :Intrant .
+:Sokay rdf:type :Intrant .
+:Zezika_omby rdf:type :Intrant .
+:Zezika_kianja rdf:type :Intrant .
+:Komposta rdf:type :Intrant .

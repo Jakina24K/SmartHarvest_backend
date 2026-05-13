@@ -7,13 +7,7 @@ from datetime import date
 from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
 from .serializers import UsersSerializer, ZoneSerializer, SoilTypeSerializer, SeasonSerializer, ZoneProfileSerializer, PlantSerializer, RecommendationLogSerializer
 from .permission import IsAdminUserProfile
-from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
-import numpy as np
-from deepface import DeepFace
-from rest_framework_simplejwt.tokens import RefreshToken
-import tempfile
-import os
+from .services import get_culture_caracteristics
 from api.scripts.plant_process import preprocess_image, model, class_names, nom_classe, class_names_malagasy
 from decouple import config
 from api.scripts.solution_desease import generate_content
@@ -86,114 +80,6 @@ def user_connected_view(request):
         "email": request.user.email,
         "role": profile.role
     })
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def facial_auth_view(request):
-    image_file = request.FILES.get('photo')
-
-    if not image_file:
-        return Response({"detail": "Aucune image fournie."}, status=400)
-
-        # Sauvegarde temporaire du fichier image
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp_file:
-        for chunk in image_file.chunks():
-            tmp_file.write(chunk)
-            tmp_path = tmp_file.name
-
-    try:
-        users = Users.objects.exclude(face_encoding__isnull=True)
-        for user in users:
-            if not user.face_encoding:
-                continue
-            result = DeepFace.verify(
-                img1_path=tmp_path,
-                img2_path=user.photo.path,
-                model_name='Facenet',
-                enforce_detection=False
-            )
-            print("Résultat de l'analyse : ",result)
-            if result["distance"] <= 0.7:
-                result["verified"] = True
-                
-            if result["verified"]:
-                    # Authentification réussie
-                refresh = RefreshToken.for_user(user.user)
-                os.remove(tmp_path)
-                return Response({
-                    "refresh": str(refresh),
-                     "access": str(refresh.access_token),
-                     "username": user.user.username
-                })
-
-        os.remove(tmp_path)
-        return Response({"detail": "Visage non reconnu."}, status=401)
-
-    except Exception as e:
-            os.remove(tmp_path)
-            return Response({"detail": f"Erreur : {str(e)}"}, status=500)
-        
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def register_view(request):
-    data = request.data
-    print("Les données recus sont : ", data)
-    files = request.FILES
-    
-
-    required_fields = ['username', 'email', 'password']
-    for field in required_fields:
-        if field not in data or not data[field]:
-            return Response({'error': f'{field} is required'}, status=400)
-
-    try:
-        if User.objects.filter(username=data['username']).exists():
-            return Response({'error': 'Username already exists'}, status=400)
-        if User.objects.filter(email=data['email']).exists():
-            return Response({'error': 'Email already exists'}, status=400)
-
-        user = User.objects.create(
-            username=data['username'],
-            email=data['email'],
-            password=make_password(data['password'])
-        )
-
-        photo = files.get('photo')
-
-        user_profile = Users.objects.create(
-            user=user,
-            localisation=data.get('localisation', ''),
-            photo=photo,
-            role=data.get('role', 'user')
-        )
-
-        # Process the photo with DeepFace if it exists
-        if user_profile.photo:
-            try:
-                image_path = user_profile.photo.path
-
-                representations = DeepFace.represent(
-                    img_path=image_path,
-                    model_name='Facenet',  # or 'VGG-Face', 'ArcFace', etc.
-                    enforce_detection=True
-                )
-
-                if representations and len(representations) > 0:
-                    embedding = representations[0]["embedding"]
-                    user_profile.face_encoding = embedding
-                    user_profile.save()
-                    print("Encodage facial enregistré avec succès.")
-                else:
-                    print("Aucune représentation faciale extraite.")
-            except Exception as e:
-                print(f"Erreur avec DeepFace : {e}")
-
-        return Response({'message': 'User created successfully'}, status=201)
-
-    except Exception as e:
-        print(f"Error : {str(e)}")
-        return Response({'error': str(e)}, status=400)
 
 
 @api_view(['GET'])
@@ -370,3 +256,18 @@ def scan_and_solution(request):
     except Exception as e:
         logger.exception("Erreur inattendue dans scan_and_solution")
         return Response({"error": f"Erreur interne du serveur : {e}"}, status=500)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def culture_caracteristics(request):
+    query = request.data.get('culture')
+
+    if not query:
+        return Response({"error": "Veuillez fournir une culture à analyser"}, status=400)
+        
+    results = get_culture_caracteristics(query)
+
+    if results:
+        return Response({"caracteristics": results}, status=200)
+    
+    return Response({"error": "Erreur lors de la récuperation des caractétistiques de la culture"}, status=500)

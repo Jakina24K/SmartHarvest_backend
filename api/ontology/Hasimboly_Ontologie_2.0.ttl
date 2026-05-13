@@ -1,0 +1,319 @@
+@prefix : <http://www.hasimboly.mg/ontologies/agri#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.hasimboly.mg/ontologies/agri> .
+
+<http://www.hasimboly.mg/ontologies/agri> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/aPourClimat
+<http://www.hasimboly.mg/ontologies/agri#aPourClimat> rdf:type owl:ObjectProperty ;
+                                                                                       rdfs:domain <http://www.hasimboly.mg/ontologies/agri#Region> ;
+                                                                                       rdfs:range <http://www.hasimboly.mg/ontologies/agri#Climat> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/affecte
+<http://www.hasimboly.mg/ontologies/agri#affecte> rdf:type owl:ObjectProperty ;
+                                                                                   rdfs:domain <http://www.hasimboly.mg/ontologies/agri#Maladie> ;
+                                                                                   rdfs:range <http://www.hasimboly.mg/ontologies/agri#Culture> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/estAdapteeA
+<http://www.hasimboly.mg/ontologies/agri#estAdapteeA> rdf:type owl:ObjectProperty ;
+                                                                                       rdfs:domain <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                                       rdfs:range <http://www.hasimboly.mg/ontologies/agri#Sol> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/estLocaliseeDans
+<http://www.hasimboly.mg/ontologies/agri#estLocaliseeDans> rdf:type owl:ObjectProperty ;
+                                                                                            rdfs:domain <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                                            rdfs:range <http://www.hasimboly.mg/ontologies/agri#Region> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/necessite
+<http://www.hasimboly.mg/ontologies/agri#necessite> rdf:type owl:ObjectProperty ;
+                                                                                     rdfs:domain <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                                     rdfs:range <http://www.hasimboly.mg/ontologies/agri#Intrant> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/seCultiveDurant
+<http://www.hasimboly.mg/ontologies/agri#seCultiveDurant> rdf:type owl:ObjectProperty ;
+                                                                                           rdfs:domain <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                                           rdfs:range <http://www.hasimboly.mg/ontologies/agri#Saison> .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Climat
+<http://www.hasimboly.mg/ontologies/agri#Climat> rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Culture
+<http://www.hasimboly.mg/ontologies/agri#Culture> rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Intrant
+<http://www.hasimboly.mg/ontologies/agri#Intrant> rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Maladie
+<http://www.hasimboly.mg/ontologies/agri#Maladie> rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Region
+<http://www.hasimboly.mg/ontologies/agri#Region> rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Saison
+<http://www.hasimboly.mg/ontologies/agri#Saison> rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Sol
+<http://www.hasimboly.mg/ontologies/agri#Sol> rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/ANALANJIROFO
+<http://www.hasimboly.mg/ontologies/agri#ANALANJIROFO> rdf:type owl:NamedIndividual ,
+                                                                                                 <http://www.hasimboly.mg/ontologies/agri#Region> ;
+                                                                                        <http://www.hasimboly.mg/ontologies/agri#aPourClimat> <http://www.hasimboly.mg/ontologies/agri#Mafana_be_sy_mando> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Alaotra_Mangoro
+<http://www.hasimboly.mg/ontologies/agri#Alaotra_Mangoro> rdf:type owl:NamedIndividual ,
+                                                                                                    <http://www.hasimboly.mg/ontologies/agri#Region> ;
+                                                                                           <http://www.hasimboly.mg/ontologies/agri#aPourClimat> <http://www.hasimboly.mg/ontologies/agri#Mafana_sy_mando> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Amoron_i_Mania
+<http://www.hasimboly.mg/ontologies/agri#Amoron_i_Mania> rdf:type owl:NamedIndividual ,
+                                                                                                   <http://www.hasimboly.mg/ontologies/agri#Region> ;
+                                                                                          <http://www.hasimboly.mg/ontologies/agri#aPourClimat> <http://www.hasimboly.mg/ontologies/agri#Mangatsiaka> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/An_tampon_tany
+<http://www.hasimboly.mg/ontologies/agri#An_tampon_tany> rdf:type owl:NamedIndividual ,
+                                                                                                   <http://www.hasimboly.mg/ontologies/agri#Climat> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Analamanga
+<http://www.hasimboly.mg/ontologies/agri#Analamanga> rdf:type owl:NamedIndividual ,
+                                                                                               <http://www.hasimboly.mg/ontologies/agri#Region> ;
+                                                                                      <http://www.hasimboly.mg/ontologies/agri#aPourClimat> <http://www.hasimboly.mg/ontologies/agri#An_tampon_tany> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Fahavaratra_Okt_Apr
+<http://www.hasimboly.mg/ontologies/agri#Fahavaratra_Okt_Apr> rdf:type owl:NamedIndividual ,
+                                                                                                        <http://www.hasimboly.mg/ontologies/agri#Saison> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Famafazana_Nov_Des
+<http://www.hasimboly.mg/ontologies/agri#Famafazana_Nov_Des> rdf:type owl:NamedIndividual ,
+                                                                                                       <http://www.hasimboly.mg/ontologies/agri#Saison> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Jirofo
+<http://www.hasimboly.mg/ontologies/agri#Jirofo> rdf:type owl:NamedIndividual ,
+                                                                                           <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                                  <http://www.hasimboly.mg/ontologies/agri#estAdapteeA> <http://www.hasimboly.mg/ontologies/agri#Tany_fasika_sy_mando> ;
+                                                                                  <http://www.hasimboly.mg/ontologies/agri#estLocaliseeDans> <http://www.hasimboly.mg/ontologies/agri#ANALANJIROFO> ;
+                                                                                  <http://www.hasimboly.mg/ontologies/agri#necessite> <http://www.hasimboly.mg/ontologies/agri#Komposta> ;
+                                                                                  <http://www.hasimboly.mg/ontologies/agri#seCultiveDurant> <http://www.hasimboly.mg/ontologies/agri#Mandavantaona> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Katsaka
+<http://www.hasimboly.mg/ontologies/agri#Katsaka> rdf:type owl:NamedIndividual ,
+                                                                                            <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#estAdapteeA> <http://www.hasimboly.mg/ontologies/agri#Tany_dilatra> ,
+                                                                                                                                                                          <http://www.hasimboly.mg/ontologies/agri#Tany_mena> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#estLocaliseeDans> <http://www.hasimboly.mg/ontologies/agri#Alaotra_Mangoro> ,
+                                                                                                                                                                               <http://www.hasimboly.mg/ontologies/agri#Amoron_i_Mania> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#necessite> <http://www.hasimboly.mg/ontologies/agri#NPK> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#seCultiveDurant> <http://www.hasimboly.mg/ontologies/agri#Famafazana_Nov_Des> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Komposta
+<http://www.hasimboly.mg/ontologies/agri#Komposta> rdf:type owl:NamedIndividual ,
+                                                                                             <http://www.hasimboly.mg/ontologies/agri#Intrant> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Lavanila
+<http://www.hasimboly.mg/ontologies/agri#Lavanila> rdf:type owl:NamedIndividual ,
+                                                                                             <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                                    <http://www.hasimboly.mg/ontologies/agri#estAdapteeA> <http://www.hasimboly.mg/ontologies/agri#Tany_fasika_sy_mando> ;
+                                                                                    <http://www.hasimboly.mg/ontologies/agri#estLocaliseeDans> <http://www.hasimboly.mg/ontologies/agri#ANALANJIROFO> ;
+                                                                                    <http://www.hasimboly.mg/ontologies/agri#necessite> <http://www.hasimboly.mg/ontologies/agri#Komposta> ;
+                                                                                    <http://www.hasimboly.mg/ontologies/agri#seCultiveDurant> <http://www.hasimboly.mg/ontologies/agri#Mandavantaona> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Legioma
+<http://www.hasimboly.mg/ontologies/agri#Legioma> rdf:type owl:NamedIndividual ,
+                                                                                            <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#estAdapteeA> <http://www.hasimboly.mg/ontologies/agri#Tany_horaka> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#estLocaliseeDans> <http://www.hasimboly.mg/ontologies/agri#Analamanga> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#necessite> <http://www.hasimboly.mg/ontologies/agri#NPK_11_22_16> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#seCultiveDurant> <http://www.hasimboly.mg/ontologies/agri#Fahavaratra_Okt_Apr> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Mafana_be_sy_mando
+<http://www.hasimboly.mg/ontologies/agri#Mafana_be_sy_mando> rdf:type owl:NamedIndividual ,
+                                                                                                       <http://www.hasimboly.mg/ontologies/agri#Climat> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Mafana_sy_mando
+<http://www.hasimboly.mg/ontologies/agri#Mafana_sy_mando> rdf:type owl:NamedIndividual ,
+                                                                                                    <http://www.hasimboly.mg/ontologies/agri#Climat> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Mandavantaona
+<http://www.hasimboly.mg/ontologies/agri#Mandavantaona> rdf:type owl:NamedIndividual ,
+                                                                                                  <http://www.hasimboly.mg/ontologies/agri#Saison> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Mangatsiaka
+<http://www.hasimboly.mg/ontologies/agri#Mangatsiaka> rdf:type owl:NamedIndividual ,
+                                                                                                <http://www.hasimboly.mg/ontologies/agri#Climat> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Mangatsiaka_be
+<http://www.hasimboly.mg/ontologies/agri#Mangatsiaka_be> rdf:type owl:NamedIndividual ,
+                                                                                                   <http://www.hasimboly.mg/ontologies/agri#Climat> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Mildiou
+<http://www.hasimboly.mg/ontologies/agri#Mildiou> rdf:type owl:NamedIndividual ,
+                                                                                            <http://www.hasimboly.mg/ontologies/agri#Maladie> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#affecte> <http://www.hasimboly.mg/ontologies/agri#Ovy> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/NPK
+<http://www.hasimboly.mg/ontologies/agri#NPK> rdf:type owl:NamedIndividual ,
+                                                                                        <http://www.hasimboly.mg/ontologies/agri#Intrant> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/NPK_11_22_16
+<http://www.hasimboly.mg/ontologies/agri#NPK_11_22_16> rdf:type owl:NamedIndividual ,
+                                                                                                 <http://www.hasimboly.mg/ontologies/agri#Intrant> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Ovy
+<http://www.hasimboly.mg/ontologies/agri#Ovy> rdf:type owl:NamedIndividual ,
+                                                                                        <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                               <http://www.hasimboly.mg/ontologies/agri#estAdapteeA> <http://www.hasimboly.mg/ontologies/agri#Tany_volkanika> ;
+                                                                               <http://www.hasimboly.mg/ontologies/agri#estLocaliseeDans> <http://www.hasimboly.mg/ontologies/agri#Amoron_i_Mania> ,
+                                                                                                                                                                           <http://www.hasimboly.mg/ontologies/agri#Vakinankaratra> ;
+                                                                               <http://www.hasimboly.mg/ontologies/agri#necessite> <http://www.hasimboly.mg/ontologies/agri#Sokay> ;
+                                                                               <http://www.hasimboly.mg/ontologies/agri#seCultiveDurant> <http://www.hasimboly.mg/ontologies/agri#Mandavantaona> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Pourriture
+<http://www.hasimboly.mg/ontologies/agri#Pourriture> rdf:type owl:NamedIndividual ,
+                                                                                               <http://www.hasimboly.mg/ontologies/agri#Maladie> ;
+                                                                                      <http://www.hasimboly.mg/ontologies/agri#affecte> <http://www.hasimboly.mg/ontologies/agri#Ovy> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Pourriture_des_racines
+<http://www.hasimboly.mg/ontologies/agri#Pourriture_des_racines> rdf:type owl:NamedIndividual ,
+                                                                                                           <http://www.hasimboly.mg/ontologies/agri#Maladie> ;
+                                                                                                  <http://www.hasimboly.mg/ontologies/agri#affecte> <http://www.hasimboly.mg/ontologies/agri#Jirofo> ,
+                                                                                                                                                                                     <http://www.hasimboly.mg/ontologies/agri#Lavanila> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Pyriculariose
+<http://www.hasimboly.mg/ontologies/agri#Pyriculariose> rdf:type owl:NamedIndividual ,
+                                                                                                  <http://www.hasimboly.mg/ontologies/agri#Maladie> ;
+                                                                                         <http://www.hasimboly.mg/ontologies/agri#affecte> <http://www.hasimboly.mg/ontologies/agri#Vary> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Ririnina_Mey_Aog
+<http://www.hasimboly.mg/ontologies/agri#Ririnina_Mey_Aog> rdf:type owl:NamedIndividual ,
+                                                                                                     <http://www.hasimboly.mg/ontologies/agri#Saison> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Sokay
+<http://www.hasimboly.mg/ontologies/agri#Sokay> rdf:type owl:NamedIndividual ,
+                                                                                          <http://www.hasimboly.mg/ontologies/agri#Intrant> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Tany_dilatra
+<http://www.hasimboly.mg/ontologies/agri#Tany_dilatra> rdf:type owl:NamedIndividual ,
+                                                                                                 <http://www.hasimboly.mg/ontologies/agri#Sol> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Tany_fasika_sy_mando
+<http://www.hasimboly.mg/ontologies/agri#Tany_fasika_sy_mando> rdf:type owl:NamedIndividual ,
+                                                                                                         <http://www.hasimboly.mg/ontologies/agri#Sol> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Tany_horaka
+<http://www.hasimboly.mg/ontologies/agri#Tany_horaka> rdf:type owl:NamedIndividual ,
+                                                                                                <http://www.hasimboly.mg/ontologies/agri#Sol> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Tany_mena
+<http://www.hasimboly.mg/ontologies/agri#Tany_mena> rdf:type owl:NamedIndividual ,
+                                                                                              <http://www.hasimboly.mg/ontologies/agri#Sol> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Tany_volkanika
+<http://www.hasimboly.mg/ontologies/agri#Tany_volkanika> rdf:type owl:NamedIndividual ,
+                                                                                                   <http://www.hasimboly.mg/ontologies/agri#Sol> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Trimena
+<http://www.hasimboly.mg/ontologies/agri#Trimena> rdf:type owl:NamedIndividual ,
+                                                                                            <http://www.hasimboly.mg/ontologies/agri#Maladie> ;
+                                                                                   <http://www.hasimboly.mg/ontologies/agri#affecte> <http://www.hasimboly.mg/ontologies/agri#Vary> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Uree
+<http://www.hasimboly.mg/ontologies/agri#Uree> rdf:type owl:NamedIndividual ,
+                                                                                         <http://www.hasimboly.mg/ontologies/agri#Intrant> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Vakinankaratra
+<http://www.hasimboly.mg/ontologies/agri#Vakinankaratra> rdf:type owl:NamedIndividual ,
+                                                                                                   <http://www.hasimboly.mg/ontologies/agri#Region> ;
+                                                                                          <http://www.hasimboly.mg/ontologies/agri#aPourClimat> <http://www.hasimboly.mg/ontologies/agri#Mangatsiaka_be> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Vary
+<http://www.hasimboly.mg/ontologies/agri#Vary> rdf:type owl:NamedIndividual ,
+                                                                                         <http://www.hasimboly.mg/ontologies/agri#Culture> ;
+                                                                                <http://www.hasimboly.mg/ontologies/agri#estAdapteeA> <http://www.hasimboly.mg/ontologies/agri#Tany_dilatra> ,
+                                                                                                                                                                       <http://www.hasimboly.mg/ontologies/agri#Tany_horaka> ;
+                                                                                <http://www.hasimboly.mg/ontologies/agri#estLocaliseeDans> <http://www.hasimboly.mg/ontologies/agri#Alaotra_Mangoro> ,
+                                                                                                                                                                            <http://www.hasimboly.mg/ontologies/agri#Analamanga> ,
+                                                                                                                                                                            <http://www.hasimboly.mg/ontologies/agri#Vakinankaratra> ;
+                                                                                <http://www.hasimboly.mg/ontologies/agri#necessite> <http://www.hasimboly.mg/ontologies/agri#Uree> ;
+                                                                                <http://www.hasimboly.mg/ontologies/agri#seCultiveDurant> <http://www.hasimboly.mg/ontologies/agri#Famafazana_Nov_Des> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Voankazo
+<http://www.hasimboly.mg/ontologies/agri#Voankazo> rdf:type owl:NamedIndividual ,
+                                                                                             <http://www.hasimboly.mg/ontologies/agri#Culture> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/Zezika_kianja
+<http://www.hasimboly.mg/ontologies/agri#Zezika_kianja> rdf:type owl:NamedIndividual ,
+                                                                                                  <http://www.hasimboly.mg/ontologies/agri#Intrant> .
+
+
+###  http://www.semanticweb.org/tsanta/ontologies/2026/4/untitled-ontology-12/soka
+<http://www.hasimboly.mg/ontologies/agri#soka> rdf:type owl:NamedIndividual ,
+                                                                                         <http://www.hasimboly.mg/ontologies/agri#Maladie> ;
+                                                                                <http://www.hasimboly.mg/ontologies/agri#affecte> <http://www.hasimboly.mg/ontologies/agri#Katsaka> .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
