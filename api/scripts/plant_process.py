@@ -10,7 +10,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model
 # Load model
-model_path = os.getenv("MODEL_PATH", os.path.join(os.path.dirname(__file__), "../models/plant_disease_i256_e1_b64_model.pth"))
+model_path = os.getenv("MODEL_PATH", os.path.join(os.path.dirname(__file__), "../models/best_model-mlflow-le4-e7-b32-i512-r0.94.pth"))
 try:
     model = EfficientNet.from_name('efficientnet-b0')
     model._fc = torch.nn.Linear(model._fc.in_features, 38)
