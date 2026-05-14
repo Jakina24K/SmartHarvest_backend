@@ -7,7 +7,7 @@ from datetime import date
 from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, RecommendationLog
 from .serializers import UsersSerializer, ZoneSerializer, SoilTypeSerializer, SeasonSerializer, ZoneProfileSerializer, PlantSerializer, RecommendationLogSerializer
 from .permission import IsAdminUserProfile
-from .services import get_culture_caracteristics, get_culture_from_caracteristics
+from .services import get_culture_caracteristics, get_cultures
 from api.scripts.plant_process import preprocess_image, model, class_names, nom_classe, class_names_malagasy
 from decouple import config
 from api.scripts.solution_desease import generate_content
@@ -275,19 +275,15 @@ def culture_caracteristics(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def culture_from_caracteristics(request):
-    data = request.data.get('caracteristic')
+    region = request.data.get("region")
+    climate = request.data.get("climate")
+    soil = request.data.get("soil")
 
-    print("query", data)
-
-    if not data:
-        return Response(
-            {"error": "Veuillez fournir les caractéristiques"},
-            status=400
-        )
-
-    season = data.get("season", "").lower()
-
-    results = get_culture_from_caracteristics(season)
+    region = str(region).lower()
+    climate = str(climate).lower()
+    soil = str(soil).lower()
+    print("Données provenant du front-end : ",region," ",climate," ",soil)
+    results = get_cultures(region=region, climate=climate, soil=soil)
 
     if results:
         return Response({"cultures": results}, status=200)

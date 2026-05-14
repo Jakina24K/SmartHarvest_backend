@@ -153,49 +153,64 @@
 #################################################################
 
 :vary rdf:type :Culture ;
-    :estLocaliseeDans :analamanga, :vakinankaratra, :alaotra_mangoro .
+    :estLocaliseeDans :analamanga, :vakinankaratra, :alaotra_mangoro ;
+    :seCultiveDurant :novambra_aprily .
 
 :katsaka rdf:type :Culture ;
-    :estLocaliseeDans :bongolava, :menabe, :vakinankaratra .
+    :estLocaliseeDans :bongolava, :menabe, :vakinankaratra ;
+    :seCultiveDurant :novambra_aprily .
 
 :ovy rdf:type :Culture ;
-    :estLocaliseeDans :vakinankaratra, :amoron_i_mania .
+    :estLocaliseeDans :vakinankaratra, :amoron_i_mania ;
+    :seCultiveDurant :jona_aogositra .
 
 :mangahazo rdf:type :Culture ;
-    :estLocaliseeDans :androy, :atsimo_andrefana .
+    :estLocaliseeDans :androy, :atsimo_andrefana ;
+    :seCultiveDurant :mandavantaona .
 
 :lavanila rdf:type :Culture ;
-    :estLocaliseeDans :sava, :analanjirofo .
+    :estLocaliseeDans :sava, :analanjirofo ;
+    :seCultiveDurant :septambra_desambra .
 
 :kafe rdf:type :Culture ;
-    :estLocaliseeDans :vatovavy, :fitovinany .
+    :estLocaliseeDans :vatovavy, :fitovinany ;
+    :seCultiveDurant :aprily_jona .
 
 :jirofo rdf:type :Culture ;
-    :estLocaliseeDans :analanjirofo, :sava .
+    :estLocaliseeDans :analanjirofo, :sava ;
+    :seCultiveDurant :septambra_desambra .
 
 :kakao rdf:type :Culture ;
-    :estLocaliseeDans :diana, :sava .
+    :estLocaliseeDans :diana, :sava ;
+    :seCultiveDurant :janoary_martsa .
 
 :voatabia rdf:type :Culture ;
-    :estLocaliseeDans :analamanga, :itasy .
+    :estLocaliseeDans :analamanga, :itasy ;
+    :seCultiveDurant :jona_aogositra .
 
 :akondro rdf:type :Culture ;
-    :estLocaliseeDans :vatovavy, :fitovinany .
+    :estLocaliseeDans :vatovavy, :fitovinany ;
+    :seCultiveDurant :mandavantaona .
 
 :manga rdf:type :Culture ;
-    :estLocaliseeDans :boeny, :sofia .
+    :estLocaliseeDans :boeny, :sofia ;
+    :seCultiveDurant :septambra_desambra .
 
 :voanio rdf:type :Culture ;
-    :estLocaliseeDans :sava, :diana .
+    :estLocaliseeDans :sava, :diana ;
+    :seCultiveDurant :mandavantaona .
 
 :fary rdf:type :Culture ;
-    :estLocaliseeDans :diana, :boeny .
+    :estLocaliseeDans :diana, :boeny ;
+    :seCultiveDurant :mandavantaona .
 
 :landihazo rdf:type :Culture ;
-    :estLocaliseeDans :atsimo_andrefana, :menabe .
+    :estLocaliseeDans :atsimo_andrefana, :menabe ;
+    :seCultiveDurant :novambra_aprily .
 
 :litchi rdf:type :Culture ;
-    :estLocaliseeDans :atsinanana, :analanjirofo .
+    :estLocaliseeDans :atsinanana, :analanjirofo ;
+    :seCultiveDurant :septambra_desambra .
 
 #################################################################
 #    MALADIES
@@ -259,6 +274,9 @@
 
 :novambra_aprily rdf:type :Saison .
 :jona_aogositra rdf:type :Saison .
+:septambra_desambra rdf:type :Saison .
+:janoary_martsa rdf:type :Saison .
+:aprily_jona rdf:type :Saison .
 :mandavantaona rdf:type :Saison .
 
 #################################################################

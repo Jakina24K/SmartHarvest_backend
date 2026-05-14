@@ -27,17 +27,39 @@ def get_culture_caracteristics(culture_name):
 
     return data
 
-def get_culture_from_caracteristics(caracteristic):
+def get_cultures(region=None, climate=None, soil=None):
+
+    filters = []
+
+    if region:
+        filters.append(f"?culture :estLocaliseeDans :{region} .")
+
+    if climate:
+        filters.append(f"""
+            ?region rdf:type :Region .
+            ?region :aPourClimat :{climate} .
+            ?culture :estLocaliseeDans ?region .
+        """)
+
+    if soil:
+        filters.append(f"""
+            ?region :aPourTypeDeSol :{soil} .
+            ?culture :estLocaliseeDans ?region .
+        """)
+
+    filters_query = "\n".join(filters)
 
     query = f"""
     {prefix}
 
-    SELECT DISTINCT ?culture ?region
+    SELECT DISTINCT ?culture ?season
     WHERE {{
-        ?region :aPourClimat :{caracteristic} .
 
         ?culture rdf:type :Culture .
         ?culture :estLocaliseeDans ?region .
+        ?culture :seCultiveDurant ?season .
+
+        {filters_query}
     }}
     """
 
@@ -46,9 +68,10 @@ def get_culture_from_caracteristics(caracteristic):
     data = []
 
     for row in results:
+
         data.append({
             "culture": str(row.culture).split("/")[-1],
-            "region": str(row.region).split("/")[-1]
+            "season": str(row.season).split("/")[-1]
         })
-
+    print("Données retournés : ",data)
     return data
