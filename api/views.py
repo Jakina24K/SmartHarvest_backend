@@ -181,6 +181,54 @@ def disease_solution(request):
             {'error': str(e)},
             status=HTTP_500_INTERNAL_SERVER_ERROR
         )
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def assistant_chat(request):
+    MODEL = config('MODEL')
+    VERSION = config('VERSION')
+    GOOGLE_API_KEY = config('GOOGLE_API_KEY')
+
+    data = request.data
+
+    message = data.get('message')
+    mode = data.get('mode', 'Agonnome')
+
+    if not all([MODEL, VERSION, GOOGLE_API_KEY, message]):
+        return Response(
+            {'error': 'Missing required fields or environment variables'},
+            status=HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        prompt = f"""
+        You are an agricultural AI assistant for Madagasikara.
+
+        Answer in Malagasy language when possible.
+
+        User Message:
+        {message}
+        """
+
+        response = generate_content(
+            MODEL,
+            VERSION,
+            GOOGLE_API_KEY,
+            "Hasimboly dia azensa misehatra amin'ny fambolena sy fiompina",
+            prompt,
+            mode="Agricultural Consultant"
+        )
+
+        return Response(
+            {'result': response},
+            status=HTTP_200_OK
+        )
+
+    except Exception as e:
+        return Response(
+            {'error': str(e)},
+            status=HTTP_500_INTERNAL_SERVER_ERROR
+        )
     
 @api_view(['POST'])
 @permission_classes([AllowAny])

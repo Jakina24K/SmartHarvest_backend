@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
-from .views import user_connected_view, culture_caracteristics,culture_from_caracteristics, UsersViewSet, ZoneViewSet, SoilTypeViewSet, SeasonViewSet, zoneProfileViewSet, PlantViewSet, RecommendationLogViewSet, recommend_plants,predict, disease_solution, scan_and_solution
+from .views import user_connected_view, culture_caracteristics,culture_from_caracteristics, UsersViewSet, ZoneViewSet, SoilTypeViewSet, SeasonViewSet, zoneProfileViewSet, PlantViewSet, RecommendationLogViewSet,recommend_plants,predict, disease_solution, scan_and_solution, assistant_chat
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/profile/', user_connected_view, name='user_connected_view'),
     path('api/disease/predict/', predict, name='disease_predict'),
     path('api/disease/solution/', disease_solution, name='disease_solution'),
+    path('api/assistant-chat/', assistant_chat, name='assistant_chat'),
     path('api/disease/', scan_and_solution, name='scan_solution'),
     path('api/culture_caracteristics/', culture_caracteristics, name='culture_caracteristics'),
     path('api/culture_from_caracteristics/', culture_from_caracteristics, name='culture_from_caracteristics'),
