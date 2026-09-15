@@ -203,7 +203,8 @@ def assistant_chat(request):
     try:
         prompt = f"""
         You are an agricultural AI assistant for Madagasikara.
-
+        If there is any prompt not related to agriculture or it's field,
+        tell to the user that you cannot help with that issue.
         Answer in Malagasy language when possible.
 
         User Message:
@@ -282,13 +283,13 @@ def scan_and_solution(request):
         logger.info(f"Résultat de la prédiction : {prediction}")
 
         # 6. Génération de la réponse via un agent ou IA externe
-        response_content = generate_content(
-            MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT, prediction, mode=mode
-        )
+        # response_content = generate_content(
+        #     MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT, prediction, mode=mode
+        # )
 
-        response_mg2 = generate_content(
-            MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT, prediction, mode="mpamboly ingeniera"
-        )
+        # response_mg2 = generate_content(
+        #     MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT, prediction, mode="mpamboly ingeniera"
+        # )
 
         response_mg = generate_content(
             MODEL, VERSION, GOOGLE_API_KEY, DEFAULT_CONTEXT, prediction, mode="mpamboly ingeniera malagasy"
@@ -296,9 +297,9 @@ def scan_and_solution(request):
 
         return Response({
             'prediction': prediction,
-            'result_en': response_content,
-            'result': response_mg,
-            'result_mg': response_mg2
+            # 'result_en': response_content,
+            'result': response_mg
+            # 'result_mg': response_mg2
         }, status=HTTP_200_OK)
 
     except Exception as e:

@@ -20,7 +20,7 @@
     rdfs:domain :Region ;
     rdfs:range :Sol .
 
-:affecte rdf:type owl:ObjectProperty ;
+:affecteCulture rdf:type owl:ObjectProperty ;
     rdfs:domain :Maladie ;
     rdfs:range :Culture .
 
@@ -32,7 +32,7 @@
     rdfs:domain :Culture ;
     rdfs:range :Region .
 
-:necessite rdf:type owl:ObjectProperty ;
+:necessiteIntrant rdf:type owl:ObjectProperty ;
     rdfs:domain :Culture ;
     rdfs:range :Intrant .
 
