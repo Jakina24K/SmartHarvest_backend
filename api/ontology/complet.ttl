@@ -1,0 +1,808 @@
+@prefix : <http://www.hasimboly.mg/ontologies/agri#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://www.hasimboly.mg/ontologies/agri>
+rdf:type owl:Ontology .
+
+:Culture rdf:type owl:Class .
+:Region rdf:type owl:Class .
+:Climat rdf:type owl:Class .
+:Sol rdf:type owl:Class .
+:Saison rdf:type owl:Class .
+:Intrant rdf:type owl:Class .
+:Maladie rdf:type owl:Class .
+:Ravageur rdf:type owl:Class .
+:Technique rdf:type owl:Class .
+:Variete rdf:type owl:Class .
+:ProduitAgricole rdf:type owl:Class .
+:NiveauRentabilite rdf:type owl:Class .
+:BesoinHydrique rdf:type owl:Class .
+
+:estLocaliseeDans rdf:type owl:ObjectProperty .
+
+:aPourClimat rdf:type owl:ObjectProperty .
+
+:aPourTypeDeSol rdf:type owl:ObjectProperty .
+
+:estAdapteeA rdf:type owl:ObjectProperty .
+
+:seCultiveDurant rdf:type owl:ObjectProperty .
+
+:necessiteIntrant rdf:type owl:ObjectProperty .
+
+:affecteCulture rdf:type owl:ObjectProperty .
+
+:estAffecteePar rdf:type owl:ObjectProperty ;
+    owl:inverseOf :affecteCulture .
+
+:aPourTechnique rdf:type owl:ObjectProperty .
+
+:aPourVariete rdf:type owl:ObjectProperty .
+
+:aPourRavageur rdf:type owl:ObjectProperty .
+
+:produit rdf:type owl:ObjectProperty .
+
+:aPourRentabilite rdf:type owl:ObjectProperty .
+
+:aBesoinHydrique rdf:type owl:ObjectProperty .
+
+
+
+:rendementHa rdf:type owl:DatatypeProperty .
+
+:dureeCycleJours rdf:type owl:DatatypeProperty .
+
+:aPourAltitudeMin rdf:type owl:DatatypeProperty .
+
+:aPourAltitudeMax rdf:type owl:DatatypeProperty .
+
+:aPourPHMin rdf:type owl:DatatypeProperty .
+
+:aPourPHMax rdf:type owl:DatatypeProperty .
+
+:prixMoyenKg rdf:type owl:DatatypeProperty .
+
+
+:faible rdf:type :BesoinHydrique .
+:moyen rdf:type :BesoinHydrique .
+:eleve rdf:type :BesoinHydrique .
+
+:faible_rentabilite rdf:type :NiveauRentabilite .
+:moyenne_rentabilite rdf:type :NiveauRentabilite .
+:haute_rentabilite rdf:type :NiveauRentabilite .
+
+:tany_mena rdf:type :Sol .
+:tany_volkanika rdf:type :Sol .
+:tany_lonaka rdf:type :Sol .
+:tany_fasika rdf:type :Sol .
+:tany_sokay rdf:type :Sol .
+:tany_dilatra rdf:type :Sol .
+:tany_horaka rdf:type :Sol .
+
+:mafana rdf:type :Climat .
+:mafana_sy_mando rdf:type :Climat .
+:mafana_sy_maina rdf:type :Climat .
+:mangatsiaka rdf:type :Climat .
+:mangatsiaka_be rdf:type :Climat .
+:karankaina rdf:type :Climat .
+:maina_sy_mafana rdf:type :Climat .
+
+:novambra_aprily rdf:type :Saison .
+:jona_aogositra rdf:type :Saison .
+:septambra_desambra rdf:type :Saison .
+:janoary_martsa rdf:type :Saison .
+:aprily_jona rdf:type :Saison .
+:mandavantaona rdf:type :Saison .
+
+:analamanga rdf:type :Region ;
+    :aPourClimat :mangatsiaka ;
+    :aPourTypeDeSol :tany_mena .
+
+:vakinankaratra rdf:type :Region ;
+    :aPourClimat :mangatsiaka_be ;
+    :aPourTypeDeSol :tany_volkanika .
+
+:sava rdf:type :Region ;
+    :aPourClimat :mafana_sy_mando ;
+    :aPourTypeDeSol :tany_lonaka .
+
+:analanjirofo rdf:type :Region ;
+    :aPourClimat :mafana_sy_mando ;
+    :aPourTypeDeSol :tany_lonaka .
+
+:atsinanana rdf:type :Region ;
+    :aPourClimat :mafana_sy_mando ;
+    :aPourTypeDeSol :tany_lonaka .
+
+:vatovavy rdf:type :Region ;
+    :aPourClimat :mafana_sy_mando ;
+    :aPourTypeDeSol :tany_lonaka .
+
+:fitovinany rdf:type :Region ;
+    :aPourClimat :mafana_sy_mando ;
+    :aPourTypeDeSol :tany_lonaka .
+
+:androy rdf:type :Region ;
+    :aPourClimat :karankaina ;
+    :aPourTypeDeSol :tany_fasika .
+
+:menabe rdf:type :Region ;
+    :aPourClimat :mafana_sy_maina ;
+    :aPourTypeDeSol :tany_dilatra .
+
+
+:npk rdf:type :Intrant .
+:uree rdf:type :Intrant .
+:komposta rdf:type :Intrant .
+:zezika_omby rdf:type :Intrant .
+:sokay rdf:type :Intrant .
+
+
+:irrigation rdf:type :Technique .
+:rotation_culturale rdf:type :Technique .
+:paillage rdf:type :Technique .
+:compostage rdf:type :Technique .
+:agroforesterie rdf:type :Technique .
+
+
+:vary rdf:type :Culture ;
+
+:estLocaliseeDans :analamanga ,
+                  :vakinankaratra ;
+
+:estAdapteeA :tany_lonaka ;
+
+:seCultiveDurant :novambra_aprily ;
+
+:necessiteIntrant :npk ,
+                  :uree ;
+
+:aPourTechnique :irrigation ;
+
+:aBesoinHydrique :eleve ;
+
+:aPourRentabilite :moyenne_rentabilite ;
+
+:rendementHa "4.5"^^xsd:decimal ;
+
+:dureeCycleJours "120"^^xsd:integer ;
+
+:prixMoyenKg "1800"^^xsd:decimal .
+
+
+
+:katsaka rdf:type :Culture ;
+
+:estLocaliseeDans :vakinankaratra ,
+                  :menabe ;
+
+:estAdapteeA :tany_mena ,
+             :tany_volkanika ;
+
+:seCultiveDurant :novambra_aprily ;
+
+:aBesoinHydrique :moyen ;
+
+:necessiteIntrant :npk ;
+
+:aPourTechnique :rotation_culturale ;
+
+:aPourRentabilite :moyenne_rentabilite ;
+
+:rendementHa "6"^^xsd:decimal ;
+
+:dureeCycleJours "100"^^xsd:integer .
+
+
+
+:ovy rdf:type :Culture ;
+
+:estLocaliseeDans :vakinankaratra ;
+
+:estAdapteeA :tany_volkanika ;
+
+:necessiteIntrant :komposta ;
+
+:aBesoinHydrique :moyen ;
+
+:aPourRentabilite :haute_rentabilite ;
+
+:rendementHa "15"^^xsd:decimal ;
+
+:dureeCycleJours "95"^^xsd:integer .
+
+
+
+:mangahazo rdf:type :Culture ;
+
+:estLocaliseeDans :androy ,
+                  :menabe ;
+
+:estAdapteeA :tany_fasika ;
+
+:aBesoinHydrique :faible ;
+
+:aPourRentabilite :moyenne_rentabilite ;
+
+:rendementHa "10"^^xsd:decimal ;
+
+:dureeCycleJours "300"^^xsd:integer .
+
+
+
+:lavanila rdf:type :Culture ;
+
+:estLocaliseeDans :sava ,
+                  :analanjirofo ;
+
+:estAdapteeA :tany_lonaka ;
+
+:aBesoinHydrique :eleve ;
+
+:aPourRentabilite :haute_rentabilite ;
+
+:aPourTechnique :agroforesterie ;
+
+:rendementHa "1.5"^^xsd:decimal .
+
+
+
+:kafe rdf:type :Culture ;
+
+:estLocaliseeDans :vatovavy ,
+                  :fitovinany ;
+
+:estAdapteeA :tany_lonaka ;
+
+:aBesoinHydrique :eleve ;
+
+:aPourRentabilite :haute_rentabilite .
+
+
+
+:kakao rdf:type :Culture ;
+
+:estLocaliseeDans :sava ;
+
+:estAdapteeA :tany_lonaka ;
+
+:aBesoinHydrique :eleve ;
+
+:aPourRentabilite :haute_rentabilite .
+
+
+
+:akondro rdf:type :Culture ;
+
+:estLocaliseeDans :vatovavy ,
+                  :fitovinany ;
+
+:estAdapteeA :tany_lonaka ;
+
+:aBesoinHydrique :eleve .
+
+
+
+:voatabia rdf:type :Culture ;
+
+:estLocaliseeDans :analamanga ;
+
+:estAdapteeA :tany_mena ;
+
+:aBesoinHydrique :moyen ;
+
+:aPourRentabilite :haute_rentabilite .
+
+
+
+:tsaramaso rdf:type :Culture ;
+
+:estLocaliseeDans :vakinankaratra ,
+                  :analamanga ;
+
+:estAdapteeA :tany_volkanika ;
+
+:aBesoinHydrique :moyen .
+
+
+
+:tongolo rdf:type :Culture ;
+
+:estLocaliseeDans :vakinankaratra ;
+
+:estAdapteeA :tany_volkanika ;
+
+:aPourRentabilite :haute_rentabilite .
+
+
+:pyriculariose rdf:type :Maladie ;
+    :affecteCulture :vary .
+
+:helminthosporiose rdf:type :Maladie ;
+    :affecteCulture :vary .
+
+:bacteriose_du_riz rdf:type :Maladie ;
+    :affecteCulture :vary .
+
+:fusariose_lavanila rdf:type :Maladie ;
+    :affecteCulture :lavanila .
+
+:anthracnose_lavanila rdf:type :Maladie ;
+    :affecteCulture :lavanila .
+
+:pourriture_des_racines rdf:type :Maladie ;
+    :affecteCulture :kakao .
+
+
+
+:chenille_legionnaire rdf:type :Ravageur .
+
+:puceron rdf:type :Ravageur .
+
+:cochenille rdf:type :Ravageur .
+
+:mouche_des_fruits rdf:type :Ravageur .
+
+:katsaka
+    :aPourRavageur :chenille_legionnaire .
+
+:voatabia
+    :aPourRavageur :puceron .
+
+:lavanila
+    :aPourRavageur :cochenille .
+
+
+:tsaramaso rdf:type :Culture ;
+    :estLocaliseeDans :vakinankaratra ,
+                      :analamanga ,
+                      :amoron_i_mania ;
+    :estAdapteeA :tany_volkanika ,
+                 :tany_mena ;
+    :seCultiveDurant :jona_aogositra ;
+    :necessiteIntrant :komposta ;
+    :aBesoinHydrique :moyen ;
+    :aPourRentabilite :moyenne_rentabilite ;
+    :rendementHa "2.5"^^xsd:decimal .
+
+:voanjo rdf:type :Culture ;
+    :estLocaliseeDans :menabe ,
+                      :atsimo_andrefana ;
+    :estAdapteeA :tany_fasika ;
+    :aBesoinHydrique :faible ;
+    :rendementHa "1.8"^^xsd:decimal .
+
+:soja rdf:type :Culture ;
+    :estLocaliseeDans :vakinankaratra ,
+                      :itasy ;
+    :estAdapteeA :tany_volkanika ;
+    :rendementHa "2.2"^^xsd:decimal .
+
+
+:carotte rdf:type :Culture ;
+    :estLocaliseeDans :vakinankaratra ;
+    :estAdapteeA :tany_volkanika ;
+    :aBesoinHydrique :moyen ;
+    :rendementHa "20"^^xsd:decimal .
+
+:chou rdf:type :Culture ;
+    :estLocaliseeDans :vakinankaratra ,
+                      :analamanga ;
+    :estAdapteeA :tany_volkanika ;
+    :rendementHa "30"^^xsd:decimal .
+
+:poivron rdf:type :Culture ;
+    :estLocaliseeDans :itasy ,
+                      :analamanga ;
+    :estAdapteeA :tany_mena ;
+    :rendementHa "15"^^xsd:decimal .
+
+:piment rdf:type :Culture ;
+    :estLocaliseeDans :boeny ,
+                      :sofia ;
+    :estAdapteeA :tany_dilatra ;
+    :rendementHa "10"^^xsd:decimal .
+
+:concombre rdf:type :Culture ;
+    :estLocaliseeDans :itasy ;
+    :estAdapteeA :tany_mena ;
+    :rendementHa "25"^^xsd:decimal .
+
+
+:patate_douce rdf:type :Culture ;
+    :estLocaliseeDans :atsinanana ,
+                      :analanjirofo ;
+    :estAdapteeA :tany_lonaka ;
+    :rendementHa "18"^^xsd:decimal .
+
+:igname rdf:type :Culture ;
+    :estLocaliseeDans :sava ;
+    :estAdapteeA :tany_lonaka ;
+    :rendementHa "12"^^xsd:decimal .
+
+
+:ananas rdf:type :Culture ;
+    :estLocaliseeDans :atsinanana ;
+    :estAdapteeA :tany_lonaka ;
+    :aPourRentabilite :haute_rentabilite .
+
+:papaye rdf:type :Culture ;
+    :estLocaliseeDans :boeny ,
+                      :sofia ;
+    :estAdapteeA :tany_dilatra .
+
+:orange rdf:type :Culture ;
+    :estLocaliseeDans :analamanga ,
+                      :itasy ;
+    :estAdapteeA :tany_mena .
+
+:citron rdf:type :Culture ;
+    :estLocaliseeDans :analamanga ,
+                      :itasy .
+
+:mandarine rdf:type :Culture ;
+    :estLocaliseeDans :vakinankaratra .
+
+:pasteque rdf:type :Culture ;
+    :estLocaliseeDans :menabe ,
+                      :androy ;
+    :estAdapteeA :tany_fasika .
+
+:melon rdf:type :Culture ;
+    :estLocaliseeDans :menabe ;
+    :estAdapteeA :tany_fasika .
+
+
+
+:gingembre rdf:type :Culture ;
+    :estLocaliseeDans :sava ,
+                      :analanjirofo ;
+    :estAdapteeA :tany_lonaka ;
+    :aPourRentabilite :haute_rentabilite .
+
+:curcuma rdf:type :Culture ;
+    :estLocaliseeDans :sava ;
+    :estAdapteeA :tany_lonaka .
+
+:poivre rdf:type :Culture ;
+    :estLocaliseeDans :sava ;
+    :aPourRentabilite :haute_rentabilite .
+
+:cannelle rdf:type :Culture ;
+    :estLocaliseeDans :analanjirofo .
+
+
+
+:ravintsara rdf:type :Culture ;
+    :estLocaliseeDans :analanjirofo ,
+                      :atsinanana ;
+    :aPourRentabilite :haute_rentabilite .
+
+:moringa rdf:type :Culture ;
+    :estLocaliseeDans :boeny ,
+                      :menabe .
+
+:ylang_ylang rdf:type :Culture ;
+    :estLocaliseeDans :diana .
+
+
+
+:makalioka rdf:type :Variete .
+:x265 rdf:type :Variete .
+:ofada rdf:type :Variete .
+:tsipala rdf:type :Variete .
+:rojomena rdf:type :Variete .
+
+:vary
+    :aPourVariete :makalioka ,
+                  :x265 ,
+                  :tsipala ,
+                  :rojomena .
+
+
+
+
+:bemiray rdf:type :Variete .
+:valenca rdf:type :Variete .
+:madia rdf:type :Variete .
+
+:mangahazo
+    :aPourVariete :bemiray ,
+                  :valenca ,
+                  :madia .
+
+
+
+:mildiou rdf:type :Maladie ;
+    :affecteCulture :voatabia .
+
+:oïdium rdf:type :Maladie ;
+    :affecteCulture :concombre .
+
+:rouille_du_cafe rdf:type :Maladie ;
+    :affecteCulture :kafe .
+
+:anthracnose_mangue rdf:type :Maladie ;
+    :affecteCulture :manga .
+
+:pourriture_brune rdf:type :Maladie ;
+    :affecteCulture :ovy .
+
+:fletrissement_bacterien rdf:type :Maladie ;
+    :affecteCulture :voatabia .
+
+
+:teigne_du_chou rdf:type :Ravageur .
+
+:mineuse rdf:type :Ravageur .
+
+:mouche_blanche rdf:type :Ravageur .
+
+:thrips rdf:type :Ravageur .
+
+:nematode rdf:type :Ravageur .
+
+:charancon_du_riz rdf:type :Ravageur .
+
+:chou
+    :aPourRavageur :teigne_du_chou .
+
+:voatabia
+    :aPourRavageur :mouche_blanche ,
+                   :thrips .
+
+:ovy
+    :aPourRavageur :nematode .
+
+:vary
+    :aPourRavageur :charancon_du_riz .
+
+
+
+
+:bokashi rdf:type :Intrant .
+
+:fumier_volaille rdf:type :Intrant .
+
+:lombricompost rdf:type :Intrant .
+
+:guano rdf:type :Intrant .
+
+
+
+:lutte_biologique rdf:type :Technique .
+
+:fertigation rdf:type :Technique .
+
+:goutte_a_goutte rdf:type :Technique .
+
+:semis_en_ligne rdf:type :Technique .
+
+:sri rdf:type :Technique .
+
+:vary
+    :aPourTechnique :sri ,
+                    :irrigation .
+
+:voatabia
+    :aPourTechnique :goutte_a_goutte .
+
+:lavanila
+    :aPourTechnique :agroforesterie .
+
+:kafe
+    :aPourTechnique :agroforesterie .
+
+
+:CultureRentable rdf:type owl:Class .
+
+:CultureHumide rdf:type owl:Class .
+
+:CultureZoneSeche rdf:type owl:Class .
+
+:CultureExportation rdf:type owl:Class .
+
+
+:sorgho rdf:type :Culture ;
+    :estLocaliseeDans :androy ,
+                      :ihorombe ;
+    :estAdapteeA :tany_fasika ;
+    :aBesoinHydrique :faible ;
+    :aPourRentabilite :moyenne_rentabilite ;
+    :rendementHa "3"^^xsd:decimal .
+
+:mil rdf:type :Culture ;
+    :estLocaliseeDans :androy ;
+    :estAdapteeA :tany_fasika ;
+    :aBesoinHydrique :faible ;
+    :rendementHa "2.5"^^xsd:decimal .
+
+
+:tabac rdf:type :Culture ;
+    :estLocaliseeDans :sofia ,
+                      :boeny ;
+    :estAdapteeA :tany_dilatra ;
+    :aPourRentabilite :haute_rentabilite .
+
+:canne_a_sucre rdf:type :Culture ;
+    :estLocaliseeDans :diana ,
+                      :boeny ;
+    :estAdapteeA :tany_lonaka ;
+    :rendementHa "80"^^xsd:decimal .
+
+:raphia rdf:type :Culture ;
+    :estLocaliseeDans :atsinanana ,
+                      :analanjirofo .
+
+:sisal rdf:type :Culture ;
+    :estLocaliseeDans :androy ;
+    :estAdapteeA :tany_fasika .
+
+
+:amoron_i_mania rdf:type :Region ;
+    :aPourClimat :mangatsiaka ;
+    :aPourTypeDeSol :tany_mena .
+
+:matsiatra_ambony rdf:type :Region ;
+    :aPourClimat :mangatsiaka ;
+    :aPourTypeDeSol :tany_mena .
+
+:boeny rdf:type :Region ;
+    :aPourClimat :mafana_sy_maina ;
+    :aPourTypeDeSol :tany_dilatra .
+
+:sofia rdf:type :Region ;
+    :aPourClimat :mafana ;
+    :aPourTypeDeSol :tany_dilatra .
+
+:diana rdf:type :Region ;
+    :aPourClimat :mafana ;
+    :aPourTypeDeSol :tany_volkanika .
+
+:ihorombe rdf:type :Region ;
+    :aPourClimat :maina_sy_mafana ;
+    :aPourTypeDeSol :tany_fasika .
+
+:Marche rdf:type owl:Class .
+
+:marche_local rdf:type :Marche .
+:exportation rdf:type :Marche .
+:agro_industrie rdf:type :Marche .
+:marche_regional rdf:type :Marche .
+
+:estCommercialiseeSur rdf:type owl:ObjectProperty ;
+    rdfs:domain :Culture ;
+    rdfs:range :Marche .
+
+:lavanila
+    :estCommercialiseeSur :exportation .
+
+:kafe
+    :estCommercialiseeSur :exportation .
+
+:kakao
+    :estCommercialiseeSur :exportation .
+
+:vary
+    :estCommercialiseeSur :marche_local .
+
+:katsaka
+    :estCommercialiseeSur :agro_industrie .
+
+
+:TypeExploitation rdf:type owl:Class .
+
+:familiale rdf:type :TypeExploitation .
+:semi_industrielle rdf:type :TypeExploitation .
+:industrielle rdf:type :TypeExploitation .
+
+:adapteeAExploitation rdf:type owl:ObjectProperty .
+
+:vary
+    :adapteeAExploitation :familiale .
+
+:lavanila
+    :adapteeAExploitation :semi_industrielle .
+
+:kakao
+    :adapteeAExploitation :semi_industrielle .
+
+:canne_a_sucre
+    :adapteeAExploitation :industrielle .
+
+
+:NiveauRisque rdf:type owl:Class .
+
+:risque_faible rdf:type :NiveauRisque .
+:risque_moyen rdf:type :NiveauRisque .
+:risque_eleve rdf:type :NiveauRisque .
+
+:aPourRisque rdf:type owl:ObjectProperty .
+
+:vary
+    :aPourRisque :risque_faible .
+
+:katsaka
+    :aPourRisque :risque_moyen .
+
+:lavanila
+    :aPourRisque :risque_eleve .
+
+:manga
+    :rendementHa "12"^^xsd:decimal .
+
+:litchi
+    :rendementHa "8"^^xsd:decimal .
+
+:kafe
+    :rendementHa "2.5"^^xsd:decimal .
+
+:kakao
+    :rendementHa "1.8"^^xsd:decimal .
+
+:akondro
+    :rendementHa "25"^^xsd:decimal .
+
+:ananas
+    :rendementHa "40"^^xsd:decimal .
+
+:NiveauMainDoeuvre rdf:type owl:Class .
+
+:faible_main_oeuvre rdf:type :NiveauMainDoeuvre .
+:moyenne_main_oeuvre rdf:type :NiveauMainDoeuvre .
+:forte_main_oeuvre rdf:type :NiveauMainDoeuvre .
+
+:aBesoinMainDoeuvre rdf:type owl:ObjectProperty .
+
+:lavanila
+    :aBesoinMainDoeuvre :forte_main_oeuvre .
+
+:vary
+    :aBesoinMainDoeuvre :moyenne_main_oeuvre .
+
+:mangahazo
+    :aBesoinMainDoeuvre :faible_main_oeuvre .
+
+:Mois rdf:type owl:Class .
+
+:janvier rdf:type :Mois .
+:fevrier rdf:type :Mois .
+:mars rdf:type :Mois .
+:avril rdf:type :Mois .
+:mai rdf:type :Mois .
+:juin rdf:type :Mois .
+:juillet rdf:type :Mois .
+:aout rdf:type :Mois .
+:septembre rdf:type :Mois .
+:octobre rdf:type :Mois .
+:novembre rdf:type :Mois .
+:decembre rdf:type :Mois .
+
+:periodeSemis rdf:type owl:ObjectProperty .
+
+:periodeRecolte rdf:type owl:ObjectProperty .
+
+:vary
+    :periodeSemis :novembre ;
+    :periodeRecolte :avril .
+
+:katsaka
+    :periodeSemis :novembre ;
+    :periodeRecolte :mars .
+
+:ovy
+    :periodeSemis :juin ;
+    :periodeRecolte :septembre .
+
+:CultureExportation rdf:type owl:Class .
+
+:CultureZoneSeche rdf:type owl:Class .
+
+:CultureFaibleEau rdf:type owl:Class .
+
+:CultureTresRentable rdf:type owl:Class .
+

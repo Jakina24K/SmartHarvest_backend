@@ -8,7 +8,7 @@ from .models import Users, Zone, SoilType, Season, ZoneProfile, Plant, Recommend
 from .serializers import UsersSerializer, ZoneSerializer, SoilTypeSerializer, SeasonSerializer, ZoneProfileSerializer, PlantSerializer, RecommendationLogSerializer
 from .permission import IsAdminUserProfile
 from .services import get_culture_caracteristics, get_cultures
-from api.scripts.plant_process import preprocess_image, model, class_names, nom_classe, class_names_malagasy
+#from api.scripts.plant_process import preprocess_image, model, class_names, nom_classe, class_names_malagasy
 from decouple import config
 from api.scripts.solution_desease import generate_content
 import torch
@@ -317,27 +317,41 @@ def culture_caracteristics(request):
     results = get_culture_caracteristics(query)
 
     if results:
-        return Response({"caracteristics": results}, status=200)
+        # return Response({"caracteristics": results}, status=200)
+        return Response({"cultures": results}, status=200)
     
     return Response({"error": "Erreur lors de la récuperation des caractétistiques de la culture"}, status=500)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def culture_from_caracteristics(request):
-    region = request.data.get("region")
-    climate = request.data.get("climate")
-    soil = request.data.get("soil")
+    def normalise(value):
+        if value is None:
+            return None
+        value = str(value).strip().lower()
+        return None if value in {"", "none", "null"} else value
 
-    region = str(region).lower()
-    climate = str(climate).lower()
-    soil = str(soil).lower()
-    print("Données provenant du front-end : ",region," ",climate," ",soil)
+    region = normalise(request.data.get("region"))
+    climate = normalise(request.data.get("climate"))
+    soil = normalise(request.data.get("soil"))
+
+    if not any((region, climate, soil)):
+        return Response(
+            {"error": "Au moins un critère doit être renseigné : région, climat ou type de sol."},
+            status=HTTP_400_BAD_REQUEST,
+        )
+
     results = get_cultures(region=region, climate=climate, soil=soil)
 
     if results:
-        return Response({"cultures": results}, status=200)
+        return Response({
+            "cultures": results,
+            "search_level": results[0]["match_level"],
+            "message": results[0]["match_message"],
+        }, status=HTTP_200_OK)
 
-    return Response(
-        {"error": "Erreur lors de la récupération des cultures"},
-        status=500
-    )
+    return Response({
+        "cultures": [],
+        "search_level": None,
+        "message": "Aucune culture ne correspond aux critères sélectionnés.",
+    }, status=HTTP_200_OK)
